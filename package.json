@@ -1,4 +1,11 @@
 {
   "name": "npc-centric-skyrim",
-  "packageManager": "yarn@4.6.0"
+  "packageManager": "yarn@4.6.0",
+  "devDependencies": {
+    "@types/node": "^22.15.18",
+    "typescript": "^5.8.3"
+  },
+  "scripts": {
+    "build": "yarn tsc"
+  }
 }
