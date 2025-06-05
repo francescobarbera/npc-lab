@@ -15,3 +15,5 @@
 dist
 
 .editorconfig
+
+.env

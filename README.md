@@ -1,3 +1,3 @@
-# npc-centric-skyrim
+# npc-lab
 
 ## Interaction between the npcs
