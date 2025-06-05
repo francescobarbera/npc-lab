@@ -3,12 +3,16 @@
   "packageManager": "yarn@4.6.0",
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
-    "@types/node": "^22.15.18",
+    "@types/node": "^22.15.21",
     "typescript": "^5.8.3"
   },
   "scripts": {
     "build": "yarn tsc",
     "format": "biome format --write ./src",
-    "lint": "biome lint ./src"
+    "lint": "biome lint ./src",
+    "start": "yarn node dist/index.js"
+  },
+  "dependencies": {
+    "openai": "^4.98.0"
   }
 }

@@ -1,0 +1,5 @@
+In this applicatione I am building a simulated world full of people called NPC (non playable characters).
+This is the class that defines a single NPC. An NPC is controlled by the AI. What I mean is that every NPC has a life goal, a personality for now. These things will be part of the system prompt I am going to provide to the LLM.
+As I said, the world is composed by different NPC with different roles. The goal of this project is to simulate a real world just to figure out how it ends after some interactions between the NPCs.
+The engine that makes this world a living one, is an infinite loop. In each cycle each NPCs can interact with the other. The LLM determinates the kind of interaction.
+What do you think about this project?
