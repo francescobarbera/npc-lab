@@ -2,7 +2,6 @@ import { OllamaImplementation } from "./dependencies-implementations/ollama.js";
 import { NPC } from "./entities/npc.js";
 import { World } from "./entities/world.js";
 import Logger from "./utils/logger.js";
-import * as readline from "node:readline";
 
 const logger = new Logger("Main");
 
@@ -47,23 +46,6 @@ const npcs: NPC[] = [
 const world = new World(llm, "world_1", npcs, 50);
 await world.initialise();
 
-const waitForUserInput = (): Promise<void> => {
-  const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-  });
-
-  return new Promise((resolve) => {
-    rl.question("Press Enter to continue to next turn...", () => {
-      rl.close();
-      resolve();
-    });
-  });
-};
-
 for (let i = 0; iterations === 0 || i < iterations; i++) {
-  if (iterations === 0) {
-    await waitForUserInput();
-  }
   await world.nextTurn();
 }
