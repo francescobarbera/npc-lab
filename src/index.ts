@@ -1,4 +1,4 @@
-import { OllamaImplementation } from "./dependencies-implementations/ollama.js";
+import { OllamaImplementation } from "./dependencies-implementations/llm-ollama.js";
 import { NPC } from "./entities/npc.js";
 import { World } from "./entities/world.js";
 import Logger from "./utils/logger.js";
