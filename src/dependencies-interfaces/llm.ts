@@ -1,3 +1,5 @@
+import type { Action } from "../entities/action.js";
+
 export type UserMessage = {
   content: string;
   sender: "user";
@@ -31,5 +33,5 @@ export function isSystemMessage(message: Message): message is SystemMessage {
 }
 
 export interface LLMInterface {
-  generateResponse(messages: Message[]): Promise<string>;
+  generateResponse(messages: Message[]): Promise<Action | null>;
 }

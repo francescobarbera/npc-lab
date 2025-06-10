@@ -1,5 +1,7 @@
-import type { LLMInterface, Message } from "../dependencies-interfaces/llm";
-import Logger from "../utils/logger";
+import type { LLMInterface, Message } from "../dependencies-interfaces/llm.js";
+import Logger from "../utils/logger.js";
+import type { Action } from "./action.js";
+import type { Event } from "./event.js";
 
 export class NPC {
   private messageHistory: Message[] = [];
@@ -10,11 +12,19 @@ export class NPC {
     public readonly name: string,
     private readonly lifeGoal: string,
     private readonly actions: string,
-    private readonly interactionsWithOthers: string,
-    private gold: number,
     private firewoodKg: number,
   ) {
     this.logger = new Logger(`NPC ${name}`);
+  }
+
+  private getInitialPrompt(): string {
+    return `
+            ${this.lifeGoal}
+            Actions you can perform: ${this.actions}
+            Current firewoodKg: ${this.firewoodKg}
+            What do you do?
+            Decide what to do this turn. You must respond by calling the "return_event" tool to describe your chosen action..
+        `;
   }
 
   async initialise() {
@@ -23,36 +33,34 @@ export class NPC {
       sender: "user",
     });
     const response = await this.llm.generateResponse(this.messageHistory);
-    this.logger.info(`NPC ${this.name} initialisation, response: ${response}`);
+    // TODO: handle the first response
+    this.logger.info(
+      `NPC ${this.name} initialisation, response: ${JSON.stringify(response)}`,
+    );
     return response;
   }
 
-  async act() {
-    this.logger.info(
-      `FirewoodKg: ${this.firewoodKg}, gold: ${this.gold}`,
-    );
+  async act(totalFirewoodKg: number): Promise<Action | null> {
     this.messageHistory.push({
-      content: `Based on your parameters (firewoodKg: ${this.firewoodKg}, gold: ${this.gold}), what is your next action? Decide what to do this turn. You must respond by calling the "return_event" tool to describe your chosen action.`,
+      content: `
+                Based on your parameters (firewoodKg: ${this.firewoodKg}), and the world firewood available (${totalFirewoodKg} kg) what is your next action? 
+                IMPORTANT: You can only collect firewood if the world has more than 10 kg available. If the world has 10 kg or less, you MUST choose to rest instead.
+                Decide what to do this turn. You must respond by calling the "return_event" tool to describe your chosen action.
+            `,
       sender: "user",
     });
-    const response = await this.llm.generateResponse(this.messageHistory);
-    const event = JSON.parse(response);
-    if (event.actionType === "collect_firewood") {
-      this.firewoodKg += 10;
-    }
-    this.logger.info(`Action: ${response}`);
-    return response;
+    return this.llm.generateResponse(this.messageHistory);
   }
 
-  getInitialPrompt(): string {
-    return `
-            ${this.lifeGoal}
-            Actions you can perform: ${this.actions}
-            Interactions with other people you can perform: ${this.interactionsWithOthers}
-            Current gold: ${this.gold}
-            Current firewoodKg: ${this.firewoodKg}
-            What do you do?
-            Decide what to do this turn. You must respond by calling the "return_event" tool to describe your chosen action..
-        `;
+  handleEvent(event: Event) {
+    if (event.target.includes(this)) {
+      this.logger.info(`Handle event ${event.type}`);
+      switch (event.type) {
+        case "collect_firewood":
+          this.firewoodKg += event.kg;
+          break;
+      }
+      this.logger.info(`FirewoodKg: ${this.firewoodKg}`);
+    }
   }
 }

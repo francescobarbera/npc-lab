@@ -1,59 +1,69 @@
-import { OpenAIImplementation } from "./dependencies-implementations/llm";
-import { NPC } from "./entities/npc";
-import { World } from "./entities/world";
-import Logger from "./utils/logger";
+import { OllamaImplementation } from "./dependencies-implementations/ollama.js";
+import { NPC } from "./entities/npc.js";
+import { World } from "./entities/world.js";
+import Logger from "./utils/logger.js";
+import * as readline from "node:readline";
 
-const logger = new Logger('Main');
+const logger = new Logger("Main");
 
-const run = async () => {
-  logger.info("START");
+const iterations = Number(process.argv[2]);
 
-  if (!process.env.OPENAI_API_KEY) {
-    throw Error("OPENAI_API_KEY must be provided");
-  }
-  const llm = new OpenAIImplementation(process.env.OPENAI_API_KEY);
+if (Number.isNaN(iterations)) {
+  logger.error("Number of iterations must be provided, use 0 to keep rolling");
+  process.exit(1);
+}
 
-  const npcs: NPC[] = [
-    new NPC(
-      llm,
-      "Carl",
-      `
+const llm = new OllamaImplementation();
+
+const npcs: NPC[] = [
+  new NPC(
+    llm,
+    "Carl",
+    `
                 It's your turn.
                 You are a person living in a world with other people.
                 You are a lumberjack.
-                If you have less than 10 gold, you may choose to sell firewood to earn more.
-                If you have less than 50 kg of firewood, you may choose to collect firewoodor buy it from others.
-                If you have at least 10 gold and at least 50 kg of firewood, you may choose to rest.
+                If you have less than 50 kg of firewood, you may choose to collect firewood.
+                If you have at least 50 kg of firewood, you may choose to rest.
             `,
-      "You can collect firewood by cutting down trees.",
-      "You can buy or sell goods, exchanging gold for firewood or vice versa.",
-      10,
-      10,
-    ),
-    new NPC(
-      llm,
-      "Bob",
-      `
+    "You can collect firewood by cutting down trees.",
+    0,
+  ),
+  new NPC(
+    llm,
+    "Bob",
+    `
                 It's your turn.
                 You are a person living in a world with other people.
                 You are a lumberjack.
-                If you have less than 10 gold, you may choose to sell firewood to earn more.
-                If you have less than 50 kg of firewood, you may choose to collect firewoodor buy it from others.
-                If you have at least 10 gold and at least 50 kg of firewood, you choose to rest.
+                If you have less than 50 kg of firewood, you may choose to collect firewood.
+                If you have at least 50 kg of firewood, you may choose to rest.
             `,
-      "You can collect firewood by cutting down trees.",
-      "You can buy or sell goods, exchanging gold for firewood or vice versa.",
-      10,
-      10,
-    ),
-  ];
+    "You can collect firewood by cutting down trees.",
+    0,
+  ),
+];
 
-  const world = new World(llm, "world_1", npcs);
-  await world.initialise();
+const world = new World(llm, "world_1", npcs, 50);
+await world.initialise();
 
-  for (let i = 0; i < 10; i++) {
-    await world.nextTurn();
-  }
+const waitForUserInput = (): Promise<void> => {
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
+
+  return new Promise((resolve) => {
+    rl.question("Press Enter to continue to next turn...", () => {
+      rl.close();
+      resolve();
+    });
+  });
 };
 
-run();
+for (let i = 0; iterations === 0 || i < iterations; i++) {
+  if (iterations === 0) {
+    await waitForUserInput();
+  }
+  await world.nextTurn();
+}

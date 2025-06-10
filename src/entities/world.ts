@@ -1,14 +1,17 @@
-import type { LLMInterface } from "../dependencies-interfaces/llm";
-import Logger from "../utils/logger";
-import type { NPC } from "./npc";
+import type { LLMInterface } from "../dependencies-interfaces/llm.js";
+import Logger from "../utils/logger.js";
+import type { Event } from "./event.js";
+import type { NPC } from "./npc.js";
 
 export class World {
   private logger: Logger;
+  private currentTurn = 0;
+
   constructor(
     private readonly llm: LLMInterface,
     public readonly name: string,
     private readonly npcs: NPC[],
-    private currentTurn = 0,
+    private totalFirewoodKg: number,
   ) {
     this.logger = new Logger("World");
   }
@@ -31,7 +34,6 @@ export class World {
     	•	A name
     	•	A profession
     	•	A memory (log of past experiences)
-    	•	An amount of gold
     	•	An age
         
         NPCs know:
@@ -44,14 +46,14 @@ export class World {
     	•	In each iteration, every NPC takes one **turn**.
     	•	During a turn, an NPC can:
     	•	Perform an action alone (e.g., collect firewood—only if they are a lumberjack).
-    	•	Interact with another NPC (e.g., buy or sell firewood using gold).
     	•	Or choose to rest.
     	•	The output of each turn is a single decision about what to do.
         
         NPCs make decisions based on:
     	•	Their personality
     	•	Their life goal
-    	•	Their current condition (e.g., amount of gold or firewood)
+    	•	Their current condition (e.g., amount of firewood)
+    	•	World current condition (e.g., total amount of firewood), if it is less than 10, the npc cannot collect more firewood
     	•	Their memories
     	•	The people and events around them
         
@@ -89,7 +91,32 @@ export class World {
     this.logger.info(`Starting turn ${this.currentTurn}`);
 
     for (const npc of this.npcs) {
-        await npc.act();
+      const action = await npc.act(this.totalFirewoodKg);
+
+      if (action) {
+        this.broadcastEvent({
+          iteration: this.currentTurn,
+          type: action.type,
+          target: [npc, this],
+          kg: 10,
+        });
+      }
+    }
+  }
+
+  handleEvent(event: Event) {
+    switch (event.type) {
+      case "collect_firewood":
+        this.totalFirewoodKg -= event.kg;
+        break;
+    }
+    this.logger.info(`FirewoodsKg ${this.totalFirewoodKg}`);
+  }
+
+  broadcastEvent(event: Event) {
+    this.handleEvent(event);
+    for (const npc of this.npcs) {
+      npc.handleEvent(event);
     }
   }
 }

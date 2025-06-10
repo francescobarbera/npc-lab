@@ -1,6 +1,10 @@
 import OpenAI from "openai";
-import type { LLMInterface, Message } from "../dependencies-interfaces/llm";
-import { isSystemMessage, isUserMessage } from "../dependencies-interfaces/llm";
+import type { LLMInterface, Message } from "../dependencies-interfaces/llm.js";
+import {
+  isSystemMessage,
+  isUserMessage,
+} from "../dependencies-interfaces/llm.js";
+import type { Action } from "../entities/action.js";
 
 export class OpenAIImplementation implements LLMInterface {
   private openai: OpenAI;
@@ -12,7 +16,7 @@ export class OpenAIImplementation implements LLMInterface {
     });
   }
 
-  async generateResponse(messages: Message[]): Promise<string> {
+  async generateResponse(messages: Message[]): Promise<Action | null> {
     try {
       const completion = await this.openai.chat.completions.create({
         messages: messages.map((message) => ({
@@ -35,14 +39,10 @@ export class OpenAIImplementation implements LLMInterface {
                 properties: {
                   type: {
                     type: "string",
-                    enum: ["world_interaction", "npcs_interaction"],
-                  },
-                  actionType: {
-                    type: "string",
                     enum: ["collect_firewood", "rest"],
                   },
                 },
-                required: ["type", "actionType"],
+                required: ["type"],
               },
             },
           },
@@ -53,10 +53,10 @@ export class OpenAIImplementation implements LLMInterface {
       const toolCall = completion.choices[0].message.tool_calls?.[0];
 
       if (!toolCall) {
-        return "No response generated";
+        return null;
       }
 
-      return toolCall.function.arguments;
+      return JSON.parse(toolCall.function.arguments);
     } catch (error) {
       console.error("Error generating response:", error);
       throw new Error("Failed to generate response from OpenAI");

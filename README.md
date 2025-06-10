@@ -25,7 +25,9 @@ yarn install
 
 ### Build and Run
 
+The start command receives the number of iterations. Pass 0 to keep iterate.
+
 ```bash
 yarn install
-yarn start
+yarn start 1
 ```
