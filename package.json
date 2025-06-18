@@ -5,13 +5,15 @@
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
     "@types/node": "^24.0.3",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "uvu": "^0.5.6"
   },
   "scripts": {
     "build": "yarn tsc",
     "format": "biome format --write ./src",
     "check": "biome lint ./src && biome format ./src",
-    "start": "yarn node dist/index.js"
+    "start": "yarn node dist/index.js",
+    "test": "yarn uvu"
   },
   "dependencies": {
     "ollama": "^0.5.16",
