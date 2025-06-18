@@ -17,19 +17,41 @@ export class NPC {
     this.logger = new Logger(`NPC ${name}`);
   }
 
-  private getInitialPrompt(): string {
+  private getSystemPrompt(): string {
     return `
-            ${this.lifeGoal}
-            Actions you can perform: ${this.actions}
-            Current firewoodKg: ${this.firewoodKg}
-            What do you do?
-            Decide what to do this turn. You must respond by calling the "return_event" tool to describe your chosen action..
-        `;
+        You are an NPC living in a medieval fantasy village. You are not an assistant - you ARE this character.
+        Your Character
+        Name: ${this.name}
+        Goal: ${this.lifeGoal}
+        
+        What You Know
+        - Other villagers and their jobs
+        - Your own memories and feelings
+        - Basic village life
+        
+        How It Works
+        - Each turn, you take ONE action
+        - You can work at your job OR rest
+        - Make decisions based on your personality, goal, and current situation
+        
+        Your Behavior
+        - Act realistic and stay in character
+        - Speak casually and naturally
+        - Be decisive - no asking questions or listing options
+        
+        Your Turn
+        - Think briefly about your current state
+        - Choose exactly one action
+        - Do that action
+        
+        Stay in character. Make one clear decision each turn.
+        Decide what to do this turn. You must respond by calling the "return_event" tool to describe your chosen action
+    `;
   }
 
   async initialise() {
     this.messageHistory.push({
-      content: this.getInitialPrompt(),
+      content: this.getSystemPrompt(),
       sender: "user",
     });
     const response = await this.llm.generateResponse(this.messageHistory);
