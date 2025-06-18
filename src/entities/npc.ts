@@ -11,7 +11,7 @@ export class NPC {
     private readonly llm: LLMInterface,
     public readonly name: string,
     private readonly lifeGoal: string,
-    private readonly actions: string,
+    private readonly actions: string[],
     private firewoodKg: number,
   ) {
     this.logger = new Logger(`NPC ${name}`);
@@ -24,22 +24,25 @@ export class NPC {
         Name: ${this.name}
         Goal: ${this.lifeGoal}
         
-        What You Know
+        What You Know:
         - Other villagers and their jobs
         - Your own memories and feelings
         - Basic village life
         
-        How It Works
+        How It Works:
         - Each turn, you take ONE action
         - You can work at your job OR rest
         - Make decisions based on your personality, goal, and current situation
         
-        Your Behavior
+        Your Behavior:
         - Act realistic and stay in character
         - Speak casually and naturally
         - Be decisive - no asking questions or listing options
         
-        Your Turn
+        What you can do:
+        ${this.actions.map((action) => `- ${action}\n`)}
+        
+        Your Turn:
         - Think briefly about your current state
         - Choose exactly one action
         - Do that action
