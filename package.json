@@ -21,7 +21,7 @@
     "start": "yarn node dist/index.js",
     "test": "NODE_ENV=test yarn uvu -r tsx",
     "test:watch": "watchlist src -- yarn test",
-    "coverage": "c8 --all yarn test"
+    "coverage": "c8 --all --include=src yarn test"
   },
   "dependencies": {
     "ollama": "^0.5.16",
