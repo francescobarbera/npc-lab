@@ -1,6 +1,7 @@
 import { OllamaImplementation } from "./dependencies-implementations/llm-ollama.js";
 import { collectFirewoodPrompt } from "./entities/action.js";
 import { NPC } from "./entities/npc.js";
+import { Orchestrator } from "./entities/orchestrator.js";
 import { World } from "./entities/world.js";
 import Logger from "./utils/logger.js";
 
@@ -44,9 +45,11 @@ const npcs: NPC[] = [
   ),
 ];
 
-const world = new World("world_1", npcs, 50);
-await world.initialise();
+const world = new World("world_1", 50);
+
+const orchestrator = new Orchestrator(world, npcs);
+await orchestrator.initialise();
 
 for (let i = 0; iterations === 0 || i < iterations; i++) {
-  await world.nextTurn();
+  await orchestrator.nextTurn();
 }

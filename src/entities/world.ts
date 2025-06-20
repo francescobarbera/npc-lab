@@ -12,44 +12,18 @@ class CollectFirewoodActionHandler implements ActionHandler {
 }
 export class World {
   private logger: Logger;
-  private currentTurn = 0;
   private readonly actionHandlers: ActionHandler[];
 
   constructor(
     public readonly name: string,
-    private readonly npcs: NPC[],
-    private totalFirewoodKg: number,
+    private firewoodKg: number,
   ) {
     this.logger = new Logger("World");
     this.actionHandlers = [new CollectFirewoodActionHandler()];
   }
 
-  public async initialise() {
-    this.logger.info(`Initialising NPCs ${this.name}`);
-
-    await Promise.all(this.npcs.map((npc) => npc.initialise()));
-  }
-
-  public async nextTurn() {
-    this.currentTurn++;
-    this.logger.info(`Starting turn ${this.currentTurn}`);
-
-    for (const npc of this.npcs) {
-      const action = await npc.act(this.totalFirewoodKg);
-
-      // if (action) {
-      //   this.broadcastEvent({
-      //     iteration: this.currentTurn,
-      //     type: action.type,
-      //     target: [npc, this],
-      //     kg: 10,
-      //   });
-      // }
-    }
-  }
-
-  get currentTurnNumber(): number {
-    return this.currentTurn;
+  get currentFirewoodKg(): number {
+    return this.firewoodKg;
   }
 
   handleAction(action: Action) {
@@ -63,15 +37,7 @@ export class World {
     this.logger.info(`No handler found for action type: ${action.type}`);
   }
 
-  // private broadcastEvent(event: Event) {
-  //   this.handleAction(event);
-  //   for (const npc of this.npcs) {
-  //     console.log("event", event);
-  //     npc.handleAction(event);
-  //   }
-  // }
-
   public decreaseFirewood(kg: number) {
-    this.totalFirewoodKg -= kg;
+    this.firewoodKg -= kg;
   }
 }

@@ -11,7 +11,7 @@ export type ActionType = "collect_firewood" | "rest";
 type BaseAction = {
   type: ActionType;
   iteration: number;
-  target: (NPC | World)[];
+  actor: NPC;
 };
 
 export const collectFirewoodPrompt = `
