@@ -15,10 +15,18 @@ export class NPC extends ActionableEntity {
     public readonly name: string,
     private readonly lifeGoal: string,
     private readonly actions: string[],
-    private firewoodKg: number,
+    private _firewoodKg: number,
   ) {
     super(`NPC ${name}`);
     this.registerActionHandler(new CollectFirewoodActionHandler());
+  }
+
+  get firewoodKg(): number {
+    return this._firewoodKg;
+  }
+
+  public increaseFirewoodKg(kg: number) {
+    this._firewoodKg += kg;
   }
 
   async initialise() {
@@ -34,13 +42,9 @@ export class NPC extends ActionableEntity {
 
   async act(totalFirewoodKg: number): Promise<Action | null> {
     this.messageHistory.push({
-      content: getActPrompt(this.firewoodKg, totalFirewoodKg),
+      content: getActPrompt(this._firewoodKg, totalFirewoodKg),
       sender: "user",
     });
     return this.llm.generateResponse(this.messageHistory);
-  }
-
-  public increaseFirewood(kg: number) {
-    this.firewoodKg = +kg;
   }
 }

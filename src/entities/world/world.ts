@@ -4,17 +4,21 @@ import { CollectFirewoodActionHandler } from "./actions-hanlders/collectFirewood
 export class World extends ActionableEntity {
   constructor(
     public readonly name: string,
-    private firewoodKg: number,
+    private _firewoodKg: number,
   ) {
     super("World");
     this.registerActionHandler(new CollectFirewoodActionHandler());
   }
 
-  get currentFirewoodKg(): number {
-    return this.firewoodKg;
+  get firewoodKg(): number {
+    return this._firewoodKg;
   }
 
   public decreaseFirewood(kg: number) {
-    this.firewoodKg -= kg;
+    if (this._firewoodKg - kg < 0) {
+      throw Error("Firewood kg cannot be less than 0");
+    }
+
+    this._firewoodKg -= kg;
   }
 }

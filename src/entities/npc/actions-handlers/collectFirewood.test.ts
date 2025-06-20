@@ -39,7 +39,7 @@ test("supports returns false if action type is not collect_firewood", () => {
 test("handle calls npc increaseFirewood method passing the kg", () => {
   const npc = new NPCMock();
   const handler = new CollectFirewoodActionHandler();
-  const npcIncreaseFirewoodSpy = sinon.spy(npc, "increaseFirewood");
+  const npcIncreaseFirewoodSpy = sinon.spy(npc, "increaseFirewoodKg");
   const action: CollectFirewoodAction = {
     iteration: 0,
     actor: npc,
