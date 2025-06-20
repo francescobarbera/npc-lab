@@ -1,6 +1,6 @@
 import type { LLMInterface, Message } from "../dependencies-interfaces/llm.js";
-import Logger from "../utils/logger.js";
 import type { Action, ActionHandler, CollectFirewoodAction } from "./action.js";
+import { ActionableEntity } from "./actionable-entity.js";
 
 class CollectFirewoodActionHandler implements ActionHandler {
   supports(action: Action): boolean {
@@ -11,10 +11,8 @@ class CollectFirewoodActionHandler implements ActionHandler {
   }
 }
 
-export class NPC {
+export class NPC extends ActionableEntity {
   private messageHistory: Message[] = [];
-  private logger: Logger;
-  private readonly actionHandlers: ActionHandler[];
 
   constructor(
     private readonly llm: LLMInterface,
@@ -23,8 +21,8 @@ export class NPC {
     private readonly actions: string[],
     private firewoodKg: number,
   ) {
-    this.logger = new Logger(`NPC ${name}`);
-    this.actionHandlers = [new CollectFirewoodActionHandler()];
+    super(`NPC ${name}`);
+    this.registerActionHandler(new CollectFirewoodActionHandler());
   }
 
   private getSystemPrompt(): string {
@@ -46,8 +44,8 @@ export class NPC {
         
         Your Behavior:
         - Act realistic and stay in character
-        - Speak casually and naturally
         - Be decisive - no asking questions or listing options
+        - Speak casually and naturally
         
         What you can do:
         ${this.actions.map((action) => `- ${action}\n`)}
@@ -85,17 +83,6 @@ export class NPC {
       sender: "user",
     });
     return this.llm.generateResponse(this.messageHistory);
-  }
-
-  handleAction(action: Action) {
-    for (const handler of this.actionHandlers) {
-      if (handler.supports(action)) {
-        handler.handle(action, this);
-        return;
-      }
-    }
-
-    this.logger.info(`No handler found for action type: ${action.type}`);
   }
 
   public increaseFirewood(kg: number) {

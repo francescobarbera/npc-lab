@@ -1,5 +1,5 @@
+import type { ActionableEntity } from "./actionable-entity.js";
 import type { NPC } from "./npc.js";
-import type { World } from "./world.js";
 
 export type ActionType = "collect_firewood" | "rest";
 
@@ -31,5 +31,5 @@ export type Action = CollectFirewoodAction | RestAction;
 
 export interface ActionHandler {
   supports(action: Action): boolean;
-  handle(action: Action, target: NPC | World): void;
+  handle(action: Action, target: ActionableEntity): void;
 }
