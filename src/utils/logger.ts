@@ -25,11 +25,17 @@ export default class Logger {
     }
   }
 
+  private static isTestMode(): boolean {
+    return process.env.NODE_ENV === "test";
+  }
+
   public info(message: string) {
+    if (Logger.isTestMode()) return;
     console.log(`${this.color}INFO: ${this.scope} - ${this.reset} ${message}`);
   }
 
   public error(message: string) {
+    if (Logger.isTestMode()) return;
     console.error(`ERROR: ${message}`);
   }
 }

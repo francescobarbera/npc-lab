@@ -33,7 +33,7 @@ export class OpenAIImplementation implements LLMInterface {
             type: "function",
             function: {
               name: "return_event",
-              description: "Return an event in the correct format",
+              description: "Return an action in the correct format",
               parameters: {
                 type: "object",
                 properties: {
