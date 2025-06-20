@@ -4,7 +4,7 @@ import type {
 } from "../../dependencies-interfaces/llm.js";
 import type { Action } from "../action.js";
 import { ActionableEntity } from "../actionable-entity.js";
-import { CollectFirewoodActionHandler } from "./actionsHandlers/collectFirewood.js";
+import { CollectFirewoodActionHandler } from "./actions-handlers/collectFirewood.js";
 import { getActPrompt, getSystemPrompt } from "./prompts.js";
 
 export class NPC extends ActionableEntity {
