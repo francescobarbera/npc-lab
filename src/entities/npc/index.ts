@@ -2,22 +2,10 @@ import type {
   LLMInterface,
   Message,
 } from "../../dependencies-interfaces/llm.js";
-import type {
-  Action,
-  ActionHandler,
-  CollectFirewoodAction,
-} from "../action.js";
+import type { Action } from "../action.js";
 import { ActionableEntity } from "../actionable-entity.js";
+import { CollectFirewoodActionHandler } from "./actionsHandlers/collectFirewood.js";
 import { getActPrompt, getSystemPrompt } from "./prompts.js";
-
-class CollectFirewoodActionHandler implements ActionHandler {
-  supports(action: Action): boolean {
-    return action.type === "collect_firewood";
-  }
-  handle(action: CollectFirewoodAction, npc: NPC): void {
-    npc.increaseFirewood(action.kg);
-  }
-}
 
 export class NPC extends ActionableEntity {
   private messageHistory: Message[] = [];
