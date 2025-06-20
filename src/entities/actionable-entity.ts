@@ -1,4 +1,3 @@
-// src/entities/entity.ts
 import Logger from "../utils/logger.js";
 import type { Action, ActionHandler } from "./action.js";
 
