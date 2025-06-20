@@ -1,5 +1,5 @@
 import type { LLMInterface } from "../../dependencies-interfaces/llm.js";
-import { NPC } from "../../entities/npc/index.js";
+import { NPC } from "../../entities/npc/npc.js";
 
 export class NPCMock extends NPC {
   public initialise = async () => Promise.resolve(null);

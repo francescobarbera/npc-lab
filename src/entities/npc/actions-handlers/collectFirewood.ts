@@ -3,7 +3,7 @@ import type {
   ActionHandler,
   CollectFirewoodAction,
 } from "../../action.js";
-import type { NPC } from "../index.js";
+import type { NPC } from "../npc.js";
 
 export class CollectFirewoodActionHandler implements ActionHandler {
   supports(action: Action): boolean {
