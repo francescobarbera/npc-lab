@@ -30,7 +30,6 @@ export class NPC extends ActionableEntity {
     this.logger.info(
       `NPC ${this.name} initialisation, response: ${JSON.stringify(response)}`,
     );
-    return response;
   }
 
   async act(totalFirewoodKg: number): Promise<Action | null> {

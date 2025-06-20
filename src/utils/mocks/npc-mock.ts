@@ -3,7 +3,7 @@ import type { Action } from "../../entities/action.js";
 import { NPC } from "../../entities/npc/npc.js";
 
 export class NPCMock extends NPC {
-  public initialise = async () => Promise.resolve(null);
+  public initialise = async () => Promise.resolve();
   public act = async (): Promise<Action | null> => Promise.resolve(null);
   public increaseFirewood = () => {};
 
