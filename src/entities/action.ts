@@ -1,5 +1,5 @@
 import type { ActionableEntity } from "./actionable-entity.js";
-import type { NPC } from "./npc.js";
+import type { NPC } from "./npc/index.js";
 
 export type ActionType = "collect_firewood" | "rest";
 

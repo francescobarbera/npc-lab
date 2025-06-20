@@ -1,6 +1,6 @@
 import type { Action, ActionHandler, CollectFirewoodAction } from "./action.js";
 import { ActionableEntity } from "./actionable-entity.js";
-import type { NPC } from "./npc.js";
+import type { NPC } from "./npc/index.js";
 
 class CollectFirewoodActionHandler implements ActionHandler {
   supports(action: Action): boolean {
