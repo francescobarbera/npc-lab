@@ -1,7 +1,7 @@
 import { OllamaImplementation } from "./dependencies-implementations/llm-ollama.js";
 import { collectFirewoodPrompt } from "./entities/action.js";
 import { NPC } from "./entities/npc/npc.js";
-import { Orchestrator } from "./entities/orchestrator.js";
+import { Orchestrator } from "./usecases/orchestrator.js";
 import { World } from "./entities/world/world.js";
 import Logger from "./utils/logger.js";
 

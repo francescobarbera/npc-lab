@@ -1,8 +1,8 @@
 import { isDefined } from "../utils/isDefined.js";
 import Logger from "../utils/logger.js";
-import type { Action, ActionHandler, CollectFirewoodAction } from "./action.js";
-import type { NPC } from "./npc/npc.js";
-import type { World } from "./world/world.js";
+import type { Action } from "../entities/action.js";
+import type { NPC } from "../entities/npc/npc.js";
+import type { World } from "../entities/world/world.js";
 
 export class Orchestrator {
   private logger: Logger;

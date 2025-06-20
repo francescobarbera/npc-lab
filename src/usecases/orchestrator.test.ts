@@ -2,7 +2,7 @@ import { suite } from "uvu";
 import sinon from "sinon";
 import * as assert from "uvu/assert";
 import { Orchestrator } from "./orchestrator.js";
-import type { Action } from "./action.js";
+import type { Action } from "../entities/action.js";
 import { NPCMock } from "../utils/mocks/npc-mock.js";
 import { WorldMock } from "../utils/mocks/world-mock.js";
 
