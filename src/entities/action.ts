@@ -10,6 +10,7 @@ export type ActionType = "wake_up" | "collect_firewood" | "rest";
  */
 type BaseAction = {
   type: ActionType;
+  reason: string;
   iteration: number;
   actor: NPC;
 };

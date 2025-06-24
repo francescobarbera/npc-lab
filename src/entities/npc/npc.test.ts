@@ -37,6 +37,7 @@ test("act calls llm.generateResponse and returns the response", async () => {
   const npc = new NPC(llm, "test_npc", "test_goal", ["rest"], 0);
   const action: Action = {
     type: "rest",
+    reason: "reason",
     iteration: 0,
     actor: npc,
   };

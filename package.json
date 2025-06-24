@@ -16,12 +16,13 @@
   "scripts": {
     "build": "yarn tsc --project tsconfig.build.json",
     "typecheck": "tsc --noEmit",
-    "format": "biome format --write ./src",
-    "check": "biome lint ./src && biome format ./src",
+    "format": "biome format --write ./src ./evals",
+    "check": "biome lint ./src ./evals && biome format ./src ./evals",
     "start": "yarn node dist/index.js",
     "test": "NODE_ENV=test yarn uvu -r tsx",
     "test:watch": "watchlist src -- yarn test",
-    "coverage": "c8 --all --include=src yarn test"
+    "coverage": "c8 --all --include=src yarn test",
+    "eval": "ITERATIONS_NUMBER=100 yarn test evals"
   },
   "dependencies": {
     "ollama": "^0.5.16",

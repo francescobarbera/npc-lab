@@ -12,6 +12,7 @@ test("supports returns true if action type is collect_firewood", () => {
   const handler = new CollectFirewoodActionHandler();
   const action: CollectFirewoodAction = {
     iteration: 0,
+    reason: "reason",
     actor: npc,
     type: "collect_firewood",
     kg: 10,
@@ -27,6 +28,7 @@ test("supports returns false if action type is not collect_firewood", () => {
   const handler = new CollectFirewoodActionHandler();
   const action: Action = {
     iteration: 0,
+    reason: "reason",
     actor: npc,
     type: "rest",
   };
@@ -42,6 +44,7 @@ test("handle calls npc increaseFirewood method passing the kg", () => {
   const npcIncreaseFirewoodSpy = sinon.spy(npc, "increaseFirewoodKg");
   const action: CollectFirewoodAction = {
     iteration: 0,
+    reason: "reason",
     actor: npc,
     type: "collect_firewood",
     kg: 10,

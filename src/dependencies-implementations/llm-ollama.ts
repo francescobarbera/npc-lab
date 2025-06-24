@@ -40,8 +40,13 @@ export class OllamaImplementation implements LLMInterface {
                     type: "string",
                     enum: ["collect_firewood", "rest"],
                   },
+                  reason: {
+                    type: "string",
+                    description:
+                      "A brief explanation of why this action was chosen",
+                  },
                 },
-                required: ["type"],
+                required: ["type", "reason"],
               },
             },
           },

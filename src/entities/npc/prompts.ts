@@ -32,7 +32,7 @@ export const getSystemPrompt = (
   - Do that action
   
   Stay in character. Make one clear decision each turn.
-  You must respond by calling the "return_event" tool to describe your chosen action.
+  You must respond by calling the "return_event" tool to describe your chosen action also adding the reason of your choise.
   For this turn only, decide to use the action 'wake up'.
 `;
 
@@ -40,7 +40,17 @@ export const getActPrompt = (
   npcFirewoodKg: number,
   worldFirewoodKg: number,
 ) => `
-  Based on your parameters (firewoodKg: ${npcFirewoodKg}), and the world firewood available (${worldFirewoodKg} kg) what is your next action? 
-  IMPORTANT: You can only collect firewood if the world has more than 10 kg available. If the world has 10 kg or less, you MUST choose to rest instead.
-  Decide what to do this turn. You must respond by calling the "return_event" tool to describe your chosen action.
+  IMPORTANT: You are only allowed to collect firewood if the world currently has **more than** 10 kg available.  
+  If the world has **10 kg or less**, you are strictly forbidden from collecting firewood and **must choose to rest instead**.
+  
+  You have ${npcFirewoodKg} kg of firewood.  
+  The world currently has ${worldFirewoodKg} kg of firewood available.  
+  
+  What will you do this turn?
+  
+  Decide between two actions:
+  - If the world has **more than 10 kg**, call the tool 'return_event' with type "collect_firewood" and an appropriate reason.
+  - If the world has **10 kg or less**, call the tool 'return_event' with type "rest" and an appropriate reason.
+  
+  You must respond by calling 'return_event' and **only** choose the correct action based on the world firewood amount.
 `;

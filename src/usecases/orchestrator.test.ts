@@ -28,8 +28,18 @@ test("nextTurn increments turn and processes NPC actions", async () => {
   const npc1 = new NPCMock();
   const npc2 = new NPCMock();
 
-  const action1: Action = { type: "rest", iteration: 1, actor: npc1 };
-  const action2: Action = { type: "rest", iteration: 1, actor: npc2 };
+  const action1: Action = {
+    type: "rest",
+    reason: "reason",
+    iteration: 1,
+    actor: npc1,
+  };
+  const action2: Action = {
+    type: "rest",
+    reason: "reason",
+    iteration: 1,
+    actor: npc2,
+  };
 
   sinon.stub(npc1, "act").resolves(action1);
   sinon.stub(npc2, "act").resolves(action2);
@@ -63,7 +73,12 @@ test("nextTurn filters out undefined actions", async () => {
   const npc1 = new NPCMock();
   const npc2 = new NPCMock();
 
-  const action: Action = { type: "rest", iteration: 1, actor: npc1 };
+  const action: Action = {
+    type: "rest",
+    reason: "reason",
+    iteration: 1,
+    actor: npc1,
+  };
 
   sinon.stub(npc1, "act").resolves(action);
   sinon.stub(npc2, "act").resolves(undefined);
