@@ -4,7 +4,7 @@ import type {
 } from "../../dependencies-interfaces/llm.js";
 import type { Action, ActionDescriptorType } from "../../types/action.js";
 import { ActionableEntity } from "../actionable-entity.js";
-import type { ResourcesStatus } from "../resources.js";
+import type { ResourcesStatus } from "../../types/resources.js";
 import { CollectFirewoodActionHandler } from "./actions-handlers/collectFirewood.js";
 import { getActPrompt, getSystemPrompt } from "./prompts.js";
 

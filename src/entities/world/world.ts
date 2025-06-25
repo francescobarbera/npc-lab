@@ -3,7 +3,7 @@ import {
   type ResourceType,
   resources,
   type ResourcesStatus,
-} from "../resources.js";
+} from "../../types/resources.js";
 import { CollectFirewoodActionHandler } from "./actions-hanlders/collectFirewood.js";
 
 export class World extends ActionableEntity {

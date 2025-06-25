@@ -4,7 +4,7 @@ import {
   resources,
   type ResourceType,
   type ResourcesStatus,
-} from "./resources.js";
+} from "../types/resources.js";
 
 export abstract class ActionableEntity {
   protected readonly actionHandlers: ActionHandler[] = [];
