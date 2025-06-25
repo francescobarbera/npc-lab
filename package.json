@@ -18,7 +18,7 @@
     "typecheck": "tsc --noEmit",
     "format": "biome format --write ./src ./evals",
     "check": "biome lint ./src ./evals && biome format ./src ./evals",
-    "start": "yarn node dist/index.js",
+    "start": "yarn node dist/src/index.js",
     "test": "NODE_ENV=test yarn uvu -r tsx",
     "test:watch": "watchlist src -- yarn test",
     "coverage": "c8 --all --include=src yarn test",
