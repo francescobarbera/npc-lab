@@ -29,9 +29,7 @@ export class Orchestrator {
   }
 
   private async collectNpcActions() {
-    return Promise.all(
-      this.npcs.map((npc) => npc.act(this.world.resources.firewood)),
-    );
+    return Promise.all(this.npcs.map((npc) => npc.act(this.world.resources)));
   }
 
   private processNPCsActions(actions: Action[]) {

@@ -5,6 +5,7 @@ import { OllamaImplementation } from "../src/dependencies-implementations/llm-ol
 import { actions } from "../src/usecases/actions.js";
 import { evaluate } from "./utils/evaluate.js";
 import { logTestResult } from "./utils/logger.js";
+import { resourcesStatusMock } from "../src/utils/mocks/resources-status-mock.js";
 
 const ITERATIONS_NUMBER = process.env.ITERATIONS_NUMBER;
 
@@ -12,46 +13,26 @@ const test = suite(
   `Eval collect firewood with ${ITERATIONS_NUMBER} iterations`,
 );
 
-test("does not decide to collect firewood if the available amount is always less than 10", async () => {
+test("all the resources are set to 0, so no rule passes, it must decide to rest", async () => {
   const testResult = await evaluate(
     Number(ITERATIONS_NUMBER),
     100,
     async () => {
       const llm = new OllamaImplementation();
       const npc = new NPC(llm, "test_npc", actions, {});
-      const action = await npc.act(0);
+      const action = await npc.act(resourcesStatusMock);
 
       if (!action) {
         throw new Error("Action is empty, test fails.");
       }
 
-      const testPassed = action.type !== "collect_firewood";
+      const testPassed = action.type === "rest";
 
       logTestResult(JSON.stringify(action), testPassed);
 
       return testPassed;
     },
   );
-
-  assert.ok(testResult);
-});
-
-test("decides to collect firewood if available firewood is more than 10", async () => {
-  const testResult = await evaluate(Number(ITERATIONS_NUMBER), 80, async () => {
-    const llm = new OllamaImplementation();
-    const npc = new NPC(llm, "test_npc", actions, {});
-    const action = await npc.act(20);
-
-    if (!action) {
-      throw new Error("Action is empty, test fails.");
-    }
-
-    const testPassed = action.type === "collect_firewood";
-
-    logTestResult(JSON.stringify(action), testPassed);
-
-    return testPassed;
-  });
 
   assert.ok(testResult);
 });

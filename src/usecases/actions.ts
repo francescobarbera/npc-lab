@@ -24,7 +24,7 @@ const collectGold: ActionDescriptorType = {
 const collectStone: ActionDescriptorType = {
   type: "collect_stone",
   rules: [
-    { left: "owned.stone", op: "<", right: 75 },
+    { left: "owned.stone", op: "<", right: 80 },
     { left: "available.stone", op: ">", right: 10 },
   ],
 };

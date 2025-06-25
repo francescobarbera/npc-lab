@@ -24,9 +24,9 @@ export class NPC extends ActionableEntity {
     });
   }
 
-  async act(availableFirewood: number): Promise<Action | null> {
+  async act(availableResources: ResourcesStatus): Promise<Action | null> {
     this.messageHistory.push({
-      content: getActPrompt(this._resources.firewood, availableFirewood),
+      content: getActPrompt(this._resources, availableResources),
       sender: "user",
     });
     return this.llm.generateResponse(

@@ -23,7 +23,7 @@ export class OllamaImplementation implements LLMInterface {
       const response = await this.ollama.chat({
         model: this.model,
         options: {
-          temperature: 0.5,
+          temperature: 0,
         },
         messages: messages.map((message) => ({
           role: isSystemMessage(message)
