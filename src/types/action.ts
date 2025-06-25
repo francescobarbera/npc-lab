@@ -37,7 +37,7 @@ export type ActionDescriptorType =
  * It has a list of associated targets, they could be npcs or the world.
  * The npcs and the world react to the action.
  */
-type BaseAction = {
+export type Action = {
   type: ActionType;
   reason: string;
   iteration: number;
@@ -58,19 +58,3 @@ export const collectFirewood: ActionDescriptorType = {
 };
 
 export const actions = [collectFirewood, rest];
-
-export type CollectFirewoodAction = BaseAction & {
-  type: "collect_firewood";
-  kg: number;
-};
-
-export type RestAction = BaseAction & {
-  type: "rest";
-};
-
-export type Action = CollectFirewoodAction | RestAction;
-
-export interface ActionHandler {
-  supports(action: Action): boolean;
-  handle(action: Action, target: ActionableEntity): void;
-}

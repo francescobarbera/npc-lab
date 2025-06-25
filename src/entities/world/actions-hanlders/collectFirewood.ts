@@ -1,15 +1,12 @@
-import type {
-  ActionHandler,
-  Action,
-  CollectFirewoodAction,
-} from "../../../types/action.js";
+import type { ActionHandler } from "../../../types/action-handler.js";
+import type { Action } from "../../../types/action.js";
 import type { World } from "../world.js";
 
 export class CollectFirewoodActionHandler implements ActionHandler {
   supports(action: Action): boolean {
     return action.type === "collect_firewood";
   }
-  handle(action: CollectFirewoodAction, world: World): void {
-    world.decreaseResource("firewood", action.kg);
+  handle(world: World): void {
+    world.decreaseResource("firewood", 10);
   }
 }

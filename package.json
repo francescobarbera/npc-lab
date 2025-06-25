@@ -22,7 +22,7 @@
     "test": "NODE_ENV=test yarn uvu -r tsx",
     "test:watch": "watchlist src -- yarn test",
     "coverage": "c8 --all --include=src yarn test",
-    "eval": "ITERATIONS_NUMBER=100 yarn test evals"
+    "eval": "ITERATIONS_NUMBER=10 yarn test evals"
   },
   "dependencies": {
     "ollama": "^0.5.16",

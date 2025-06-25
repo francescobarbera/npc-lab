@@ -2,7 +2,7 @@ import { suite } from "uvu";
 import sinon from "sinon";
 import * as assert from "uvu/assert";
 import { CollectFirewoodActionHandler } from "./collectFirewood.js";
-import type { Action, CollectFirewoodAction } from "../../../types/action.js";
+import type { Action } from "../../../types/action.js";
 import { WorldMock } from "../../../utils/mocks/world-mock.js";
 import { NPCMock } from "../../../utils/mocks/npc-mock.js";
 
@@ -11,12 +11,11 @@ const test = suite("World CollectFirewoodActionHandler");
 test("supports returns true if action type is collect_firewood", () => {
   const npc = new NPCMock();
   const handler = new CollectFirewoodActionHandler();
-  const action: CollectFirewoodAction = {
+  const action: Action = {
     iteration: 0,
     reason: "reason",
     actor: npc,
     type: "collect_firewood",
-    kg: 10,
   };
 
   const result = handler.supports(action);
@@ -44,15 +43,14 @@ test("handle calls world decreaseFirewood method passing the resource name and t
   const npc = new NPCMock();
   const handler = new CollectFirewoodActionHandler();
   const worldDecreaseResourceSpy = sinon.spy(world, "decreaseResource");
-  const action: CollectFirewoodAction = {
+  const action: Action = {
     iteration: 0,
     reason: "reason",
     actor: npc,
     type: "collect_firewood",
-    kg: 10,
   };
 
-  handler.handle(action, world);
+  handler.handle(world);
 
   assert.is(worldDecreaseResourceSpy.callCount, 1);
   assert.equal(worldDecreaseResourceSpy.getCall(0).args, ["firewood", 10]);

@@ -1,7 +1,8 @@
 import { suite } from "uvu";
 import * as assert from "uvu/assert";
 import { ActionableEntity } from "./actionable-entity.js";
-import type { Action, ActionHandler } from "../types/action.js";
+import type { Action } from "../types/action.js";
+import type { ActionHandler } from "../types/action-handler.js";
 import { ActionHandlerMock } from "../utils/mocks/action-handler-mock.js";
 import { NPCMock } from "../utils/mocks/npc-mock.js";
 import { resources } from "../types/resources.js";
@@ -45,7 +46,7 @@ test("handleAction calls the first supporting handler's handle method", () => {
 
   assert.is(handler1.handleSpy.callCount, 0);
   assert.is(handler2.handleSpy.callCount, 1);
-  assert.equal(handler2.handleSpy.getCall(0).args, [action, entity]);
+  assert.equal(handler2.handleSpy.getCall(0).args, [entity]);
 });
 
 test("handleAction logs info if no handler supports the action", () => {

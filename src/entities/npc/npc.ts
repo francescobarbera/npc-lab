@@ -29,7 +29,6 @@ export class NPC extends ActionableEntity {
       content: getActPrompt(this._resources.firewood, availableFirewood),
       sender: "user",
     });
-    // console.log(this.messageHistory);
     return this.llm.generateResponse(
       this.actions.map((action) => action.type),
       this.messageHistory,

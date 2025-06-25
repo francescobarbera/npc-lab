@@ -1,6 +1,7 @@
 import sinon from "sinon";
-import type { ActionHandler, Action } from "../../types/action.js";
+import type { Action } from "../../types/action.js";
 import type { ActionableEntity } from "../../entities/actionable-entity.js";
+import type { ActionHandler } from "../../types/action-handler.js";
 
 export class ActionHandlerMock implements ActionHandler {
   public supported = false;
@@ -14,7 +15,7 @@ export class ActionHandlerMock implements ActionHandler {
     return this.supported;
   }
 
-  handle(action: Action, target: ActionableEntity): void {
-    this.handleSpy(action, target);
+  handle(target: ActionableEntity): void {
+    this.handleSpy(target);
   }
 }

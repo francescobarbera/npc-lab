@@ -1,5 +1,6 @@
 import Logger from "../utils/logger.js";
-import type { Action, ActionHandler } from "../types/action.js";
+import type { Action } from "../types/action.js";
+import type { ActionHandler } from "../types/action-handler.js";
 import {
   resources,
   type ResourceType,
@@ -45,7 +46,7 @@ export abstract class ActionableEntity {
         JSON.stringify({ type: action.type, reason: action.reason }),
       );
       if (handler.supports(action)) {
-        handler.handle(action, this);
+        handler.handle(this);
         return;
       }
     }
