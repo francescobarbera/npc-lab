@@ -40,17 +40,19 @@ export const getActPrompt = (
   npcFirewoodKg: number,
   worldFirewoodKg: number,
 ) => `
-  IMPORTANT: You are only allowed to collect firewood if the world currently has **more than** 10 kg available.  
-  If the world has **10 kg or less**, you are strictly forbidden from collecting firewood and **must choose to rest instead**.
-  
-  You have ${npcFirewoodKg} kg of firewood.  
-  The world currently has ${worldFirewoodKg} kg of firewood available.  
-  
-  What will you do this turn?
-  
-  Decide between two actions:
-  - If the world has **more than 10 kg**, call the tool 'return_event' with type "collect_firewood" and an appropriate reason.
-  - If the world has **10 kg or less**, call the tool 'return_event' with type "rest" and an appropriate reason.
-  
-  You must respond by calling 'return_event' and **only** choose the correct action based on the world firewood amount.
+  Current Status  
+    You have: ${npcFirewoodKg} kg of firewood
+    World has: ${worldFirewoodKg} kg of firewood available  
+  CRITICAL: The type parameter must be EXACTLY one of these two strings:  
+    "collect_firewood" (only if world > 10 kg)
+    "rest" (only if world ≤ 10 kg)
+  Decision Logic
+  STEP 1: Check world firewood amount: ${worldFirewoodKg} kg
+  STEP 2: Compare with threshold:
+    Is ${worldFirewoodKg} > 10? → If YES, use type: "collect_firewood"
+    Is ${worldFirewoodKg} ≤ 10? → If YES, use type: "rest"
+  STEP 3: Determine the correct type parameter:
+      Since ${worldFirewoodKg} is ${worldFirewoodKg > 10 ? ">" : "≤"} 10, you MUST use type: "${worldFirewoodKg > 10 ? "collect_firewood" : "rest"}"
+  Describe your decision using the reason attribute
+  Call return_event now.
 `;
