@@ -2,7 +2,7 @@ import { suite } from "uvu";
 import sinon from "sinon";
 import * as assert from "uvu/assert";
 import { CollectFirewoodActionHandler } from "./collectFirewood.js";
-import type { Action, CollectFirewoodAction } from "../../action.js";
+import type { Action, CollectFirewoodAction } from "../../../types/action.js";
 import { NPCMock } from "../../../utils/mocks/npc-mock.js";
 
 const test = suite("NPC CollectFirewoodActionHandler");

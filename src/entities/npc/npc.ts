@@ -2,7 +2,7 @@ import type {
   LLMInterface,
   Message,
 } from "../../dependencies-interfaces/llm.js";
-import type { Action, ActionDescriptorType } from "../action.js";
+import type { Action, ActionDescriptorType } from "../../types/action.js";
 import { ActionableEntity } from "../actionable-entity.js";
 import type { ResourcesStatus } from "../resources.js";
 import { CollectFirewoodActionHandler } from "./actions-handlers/collectFirewood.js";

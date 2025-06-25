@@ -1,7 +1,7 @@
 import { suite } from "uvu";
 import * as assert from "uvu/assert";
 import { ActionableEntity } from "./actionable-entity.js";
-import type { Action, ActionHandler } from "./action.js";
+import type { Action, ActionHandler } from "../types/action.js";
 import { ActionHandlerMock } from "../utils/mocks/action-handler-mock.js";
 import { NPCMock } from "../utils/mocks/npc-mock.js";
 import { resources } from "./resources.js";

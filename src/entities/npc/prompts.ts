@@ -1,4 +1,4 @@
-import type { ActionDescriptorType } from "../action.js";
+import type { ActionDescriptorType } from "../../types/action.js";
 
 export const getSystemPrompt = (
   name: string,

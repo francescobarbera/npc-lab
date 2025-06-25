@@ -1,5 +1,5 @@
 import Logger from "../utils/logger.js";
-import type { Action, ActionHandler } from "./action.js";
+import type { Action, ActionHandler } from "../types/action.js";
 import {
   resources,
   type ResourceType,

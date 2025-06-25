@@ -2,7 +2,7 @@ import type {
   ActionHandler,
   Action,
   CollectFirewoodAction,
-} from "../../action.js";
+} from "../../../types/action.js";
 import type { World } from "../world.js";
 
 export class CollectFirewoodActionHandler implements ActionHandler {

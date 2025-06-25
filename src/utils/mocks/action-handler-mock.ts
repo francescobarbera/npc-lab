@@ -1,5 +1,5 @@
 import sinon from "sinon";
-import type { ActionHandler, Action } from "../../entities/action.js";
+import type { ActionHandler, Action } from "../../types/action.js";
 import type { ActionableEntity } from "../../entities/actionable-entity.js";
 
 export class ActionHandlerMock implements ActionHandler {

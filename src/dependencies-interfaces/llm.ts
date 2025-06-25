@@ -1,4 +1,4 @@
-import type { Action } from "../entities/action.js";
+import type { Action } from "../types/action.js";
 
 export type UserMessage = {
   content: string;

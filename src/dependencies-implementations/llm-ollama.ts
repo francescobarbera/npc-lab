@@ -4,7 +4,7 @@ import {
   isSystemMessage,
   isUserMessage,
 } from "../dependencies-interfaces/llm.js";
-import type { Action } from "../entities/action.js";
+import type { Action } from "../types/action.js";
 
 export class OllamaImplementation implements LLMInterface {
   private ollama: Ollama;

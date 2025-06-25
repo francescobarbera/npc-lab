@@ -1,5 +1,5 @@
-import type { ActionableEntity } from "./actionable-entity.js";
-import type { NPC } from "./npc/npc.js";
+import type { ActionableEntity } from "../entities/actionable-entity.js";
+import type { NPC } from "../entities/npc/npc.js";
 
 export type ActionType =
   | "collect_gold"
@@ -13,6 +13,7 @@ export type ActionType =
   | "collect_fish"
   | "collect_herbs"
   | "rest";
+
 export type ActionDescriptorType =
   | {
       type: Exclude<ActionType, "rest">;

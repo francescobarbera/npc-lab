@@ -3,7 +3,7 @@ import { NPC } from "./entities/npc/npc.js";
 import { Orchestrator } from "./usecases/orchestrator.js";
 import { World } from "./entities/world/world.js";
 import Logger from "./utils/logger.js";
-import { actions } from "./entities/action.js";
+import { actions } from "./types/action.js";
 
 const logger = new Logger("Main");
 
