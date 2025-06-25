@@ -8,6 +8,6 @@ export class NPCMock extends NPC {
   public increaseFirewood = () => {};
 
   constructor() {
-    super({} as LLMInterface, "mock_npc", "mock_goal", [], {});
+    super({} as LLMInterface, "mock_npc", [], {});
   }
 }

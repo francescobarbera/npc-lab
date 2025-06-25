@@ -14,7 +14,6 @@ export class NPC extends ActionableEntity {
   constructor(
     private readonly llm: LLMInterface,
     public readonly name: string,
-    private readonly lifeGoal: string,
     private readonly actions: string[],
     initialResources: Partial<ResourcesStatus> = {},
   ) {
@@ -24,7 +23,7 @@ export class NPC extends ActionableEntity {
 
   async initialise() {
     this.messageHistory.push({
-      content: getSystemPrompt(this.name, this.lifeGoal, this.actions),
+      content: getSystemPrompt(this.name, this.actions),
       sender: "user",
     });
     const response = await this.llm.generateResponse(this.messageHistory);

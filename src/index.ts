@@ -17,32 +17,8 @@ if (Number.isNaN(iterations)) {
 const llm = new OllamaImplementation();
 
 const npcs: NPC[] = [
-  new NPC(
-    llm,
-    "Carl",
-    `
-        It's your turn.
-        You are a person living in a world with other people.
-        You are a lumberjack.
-        If you have less than 50 kg of firewood, you may choose to collect firewood.
-        If you have at least 50 kg of firewood, you may choose to rest.
-    `,
-    [collectFirewoodPrompt],
-    {},
-  ),
-  new NPC(
-    llm,
-    "Bob",
-    `
-        It's your turn.
-        You are a person living in a world with other people.
-        You are a lumberjack.
-        If you have less than 50 kg of firewood, you may choose to collect firewood.
-        If you have at least 50 kg of firewood, you may choose to rest.
-    `,
-    [collectFirewoodPrompt],
-    {},
-  ),
+  new NPC(llm, "Carl", [collectFirewoodPrompt], {}),
+  new NPC(llm, "Bob", [collectFirewoodPrompt], {}),
 ];
 
 const world = new World("world_1", { firewood: 50 });

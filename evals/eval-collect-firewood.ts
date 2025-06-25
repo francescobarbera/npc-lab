@@ -17,13 +17,7 @@ test("does not decide to collect firewood if the available amount is always less
     100,
     async () => {
       const llm = new OllamaImplementation();
-      const npc = new NPC(
-        llm,
-        "test_npc",
-        "test_life_goal",
-        [collectFirewoodPrompt],
-        {},
-      );
+      const npc = new NPC(llm, "test_npc", [collectFirewoodPrompt], {});
       const action = await npc.act(0);
 
       if (!action) {
@@ -40,13 +34,7 @@ test("does not decide to collect firewood if the available amount is always less
 test("decides to collect firewood if available firewood is more than 10", async () => {
   const testResult = await evaluate(Number(ITERATIONS_NUMBER), 80, async () => {
     const llm = new OllamaImplementation();
-    const npc = new NPC(
-      llm,
-      "test_npc",
-      "test_life_goal",
-      [collectFirewoodPrompt],
-      {},
-    );
+    const npc = new NPC(llm, "test_npc", [collectFirewoodPrompt], {});
     const action = await npc.act(20);
 
     if (!action) {

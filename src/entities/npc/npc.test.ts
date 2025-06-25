@@ -9,7 +9,7 @@ const test = suite("NPC");
 
 test("initialise calls llm.generateResponse", async () => {
   const llm = new LLMMock();
-  const npc = new NPC(llm, "test_npc", "test_goal", ["rest"], { firewood: 0 });
+  const npc = new NPC(llm, "test_npc", ["rest"], { firewood: 0 });
   const generateResponseSpy = sinon.spy(llm, "generateResponse");
 
   await npc.initialise();
@@ -19,7 +19,7 @@ test("initialise calls llm.generateResponse", async () => {
 
 test("act calls llm.generateResponse and returns the response", async () => {
   const llm = new LLMMock();
-  const npc = new NPC(llm, "test_npc", "test_goal", ["rest"], { firewood: 0 });
+  const npc = new NPC(llm, "test_npc", ["rest"], { firewood: 0 });
   const action: Action = {
     type: "rest",
     reason: "reason",
