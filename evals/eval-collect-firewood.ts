@@ -2,7 +2,7 @@ import { suite } from "uvu";
 import * as assert from "uvu/assert";
 import { NPC } from "../src/entities/npc/npc.js";
 import { OllamaImplementation } from "../src/dependencies-implementations/llm-ollama.js";
-import { actions } from "../src/types/action.js";
+import { actions } from "../src/usecases/actions.js";
 import { evaluate } from "./utils/evaluate.js";
 import { logTestResult } from "./utils/logger.js";
 

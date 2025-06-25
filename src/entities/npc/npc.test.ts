@@ -3,7 +3,8 @@ import sinon from "sinon";
 import * as assert from "uvu/assert";
 import { NPC } from "./npc.js";
 import { LLMMock } from "../../utils/mocks/llm-mock.js";
-import { rest, type Action } from "../../types/action.js";
+import type { Action } from "../../types/action.js";
+import { rest } from "../../usecases/actions.js";
 
 const test = suite("NPC");
 
