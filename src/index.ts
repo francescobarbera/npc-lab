@@ -28,7 +28,7 @@ const npcs: NPC[] = [
         If you have at least 50 kg of firewood, you may choose to rest.
     `,
     [collectFirewoodPrompt],
-    0,
+    {},
   ),
   new NPC(
     llm,
@@ -41,11 +41,11 @@ const npcs: NPC[] = [
         If you have at least 50 kg of firewood, you may choose to rest.
     `,
     [collectFirewoodPrompt],
-    0,
+    {},
   ),
 ];
 
-const world = new World("world_1", 50);
+const world = new World("world_1", { firewood: 50 });
 
 const orchestrator = new Orchestrator(world, npcs);
 await orchestrator.initialise();

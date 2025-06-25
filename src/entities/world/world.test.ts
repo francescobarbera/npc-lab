@@ -5,7 +5,7 @@ import { World } from "./world.js";
 const test = suite("World");
 
 test("decreaseFirewoodKg removes kg to current firewood kg", () => {
-  const world = new World("test_world", 100);
+  const world = new World("test_world", { firewood: 100 });
 
   assert.is(world.firewoodKg, 100);
 
@@ -19,7 +19,7 @@ test("decreaseFirewoodKg removes kg to current firewood kg", () => {
 });
 
 test("decreaseFirewoodKg throws an exception if firewoodKg goes under 0", () => {
-  const world = new World("test_world", 10);
+  const world = new World("test_world", { firewood: 10 });
 
   assert.throws(
     () => world.decreaseFirewood(20),

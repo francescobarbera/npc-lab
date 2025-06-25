@@ -4,29 +4,35 @@ import type {
 } from "../../dependencies-interfaces/llm.js";
 import type { Action } from "../action.js";
 import { ActionableEntity } from "../actionable-entity.js";
+import { resources, type ResourcesStatus } from "../resources.js";
 import { CollectFirewoodActionHandler } from "./actions-handlers/collectFirewood.js";
 import { getActPrompt, getSystemPrompt } from "./prompts.js";
 
 export class NPC extends ActionableEntity {
   private messageHistory: Message[] = [];
+  private resources: ResourcesStatus;
 
   constructor(
     private readonly llm: LLMInterface,
     public readonly name: string,
     private readonly lifeGoal: string,
     private readonly actions: string[],
-    private _firewoodKg: number,
+    initialResources: Partial<ResourcesStatus> = {},
   ) {
     super(`NPC ${name}`);
     this.registerActionHandler(new CollectFirewoodActionHandler());
+    this.resources = Object.assign(
+      Object.fromEntries(resources.map((r) => [r, 0])) as ResourcesStatus,
+      initialResources,
+    );
   }
 
   get firewoodKg(): number {
-    return this._firewoodKg;
+    return this.resources.firewood;
   }
 
   public increaseFirewoodKg(kg: number) {
-    this._firewoodKg += kg;
+    this.resources.firewood += kg;
   }
 
   async initialise() {
@@ -42,7 +48,7 @@ export class NPC extends ActionableEntity {
 
   async act(totalFirewoodKg: number): Promise<Action | null> {
     this.messageHistory.push({
-      content: getActPrompt(this._firewoodKg, totalFirewoodKg),
+      content: getActPrompt(this.resources.firewood, totalFirewoodKg),
       sender: "user",
     });
     return this.llm.generateResponse(this.messageHistory);

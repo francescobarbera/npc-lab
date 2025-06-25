@@ -22,7 +22,7 @@ test("does not decide to collect firewood if the available amount is always less
         "test_npc",
         "test_life_goal",
         [collectFirewoodPrompt],
-        0,
+        {},
       );
       const action = await npc.act(0);
 
@@ -45,7 +45,7 @@ test("decides to collect firewood if available firewood is more than 10", async 
       "test_npc",
       "test_life_goal",
       [collectFirewoodPrompt],
-      0,
+      {},
     );
     const action = await npc.act(20);
 

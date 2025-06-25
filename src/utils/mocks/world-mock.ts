@@ -4,6 +4,6 @@ export class WorldMock extends World {
   public decreaseFirewood = () => {};
 
   constructor() {
-    super("mock_world", 10);
+    super("mock_world", { firewood: 10 });
   }
 }
