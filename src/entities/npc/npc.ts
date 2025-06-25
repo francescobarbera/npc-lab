@@ -10,7 +10,6 @@ import { getActPrompt, getSystemPrompt } from "./prompts.js";
 
 export class NPC extends ActionableEntity {
   private messageHistory: Message[] = [];
-  private resources: ResourcesStatus;
 
   constructor(
     private readonly llm: LLMInterface,
@@ -19,20 +18,8 @@ export class NPC extends ActionableEntity {
     private readonly actions: string[],
     initialResources: Partial<ResourcesStatus> = {},
   ) {
-    super(`NPC ${name}`);
+    super(`NPC ${name}`, initialResources);
     this.registerActionHandler(new CollectFirewoodActionHandler());
-    this.resources = Object.assign(
-      Object.fromEntries(resources.map((r) => [r, 0])) as ResourcesStatus,
-      initialResources,
-    );
-  }
-
-  get firewoodKg(): number {
-    return this.resources.firewood;
-  }
-
-  public increaseFirewoodKg(kg: number) {
-    this.resources.firewood += kg;
   }
 
   async initialise() {
@@ -48,7 +35,7 @@ export class NPC extends ActionableEntity {
 
   async act(totalFirewoodKg: number): Promise<Action | null> {
     this.messageHistory.push({
-      content: getActPrompt(this.resources.firewood, totalFirewoodKg),
+      content: getActPrompt(this._resources.firewood, totalFirewoodKg),
       sender: "user",
     });
     return this.llm.generateResponse(this.messageHistory);

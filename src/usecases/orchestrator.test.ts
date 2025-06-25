@@ -57,8 +57,8 @@ test("nextTurn increments turn and processes NPC actions", async () => {
 
   assert.is(orchestrator.currentTurnNumber, 1);
 
-  assert.ok((npc1.act as sinon.SinonStub).calledWith(world.firewoodKg));
-  assert.ok((npc2.act as sinon.SinonStub).calledWith(world.firewoodKg));
+  assert.ok((npc1.act as sinon.SinonStub).calledWith(world.resources.firewood));
+  assert.ok((npc2.act as sinon.SinonStub).calledWith(world.resources.firewood));
 
   assert.ok(worldHandleActionSpy.calledWith(action1));
   assert.ok(worldHandleActionSpy.calledWith(action2));

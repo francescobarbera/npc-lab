@@ -10,6 +10,6 @@ export class CollectFirewoodActionHandler implements ActionHandler {
     return action.type === "collect_firewood";
   }
   handle(action: CollectFirewoodAction, npc: NPC): void {
-    npc.increaseFirewoodKg(action.kg);
+    npc.increaseResource("firewood", action.kg);
   }
 }

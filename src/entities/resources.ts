@@ -11,5 +11,5 @@ export const resources = [
   "herbs",
 ] as const;
 
-export type resource = (typeof resources)[number];
-export type ResourcesStatus = Record<resource, number>;
+export type ResourceType = (typeof resources)[number];
+export type ResourcesStatus = Record<ResourceType, number>;

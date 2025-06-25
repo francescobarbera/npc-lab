@@ -35,8 +35,8 @@ export class Orchestrator {
   }
 
   private async collectNpcActions() {
-    return await Promise.all(
-      this.npcs.map((npc) => npc.act(this.world.firewoodKg)),
+    return Promise.all(
+      this.npcs.map((npc) => npc.act(this.world.resources.firewood)),
     );
   }
 

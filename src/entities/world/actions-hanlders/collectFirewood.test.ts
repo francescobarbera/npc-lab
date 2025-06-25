@@ -39,11 +39,11 @@ test("supports returns false if action type is not collect_firewood", () => {
   assert.is(result, false);
 });
 
-test("handle calls world decreaseFirewood method passing the kg", () => {
+test("handle calls world decreaseFirewood method passing the resource name and the number", () => {
   const world = new WorldMock();
   const npc = new NPCMock();
   const handler = new CollectFirewoodActionHandler();
-  const worldDecreaseFirewoodSpy = sinon.spy(world, "decreaseFirewood");
+  const worldDecreaseResourceSpy = sinon.spy(world, "decreaseResource");
   const action: CollectFirewoodAction = {
     iteration: 0,
     reason: "reason",
@@ -54,8 +54,8 @@ test("handle calls world decreaseFirewood method passing the kg", () => {
 
   handler.handle(action, world);
 
-  assert.is(worldDecreaseFirewoodSpy.callCount, 1);
-  assert.equal(worldDecreaseFirewoodSpy.getCall(0).args, [10]);
+  assert.is(worldDecreaseResourceSpy.callCount, 1);
+  assert.equal(worldDecreaseResourceSpy.getCall(0).args, ["firewood", 10]);
 });
 
 test.run();

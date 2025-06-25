@@ -10,6 +10,6 @@ export class CollectFirewoodActionHandler implements ActionHandler {
     return action.type === "collect_firewood";
   }
   handle(action: CollectFirewoodAction, world: World): void {
-    world.decreaseFirewood(action.kg);
+    world.decreaseResource("firewood", action.kg);
   }
 }

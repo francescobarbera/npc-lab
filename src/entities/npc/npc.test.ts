@@ -17,21 +17,6 @@ test("initialise calls llm.generateResponse", async () => {
   assert.is(generateResponseSpy.callCount, 1);
 });
 
-test("increaseFirewoodKg adds kg to current firewood kg", () => {
-  const llm = new LLMMock();
-  const npc = new NPC(llm, "test_npc", "test_goal", ["rest"], { firewood: 0 });
-
-  assert.is(npc.firewoodKg, 0);
-
-  npc.increaseFirewoodKg(10);
-
-  assert.is(npc.firewoodKg, 10);
-
-  npc.increaseFirewoodKg(20);
-
-  assert.is(npc.firewoodKg, 30);
-});
-
 test("act calls llm.generateResponse and returns the response", async () => {
   const llm = new LLMMock();
   const npc = new NPC(llm, "test_npc", "test_goal", ["rest"], { firewood: 0 });
