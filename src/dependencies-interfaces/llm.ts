@@ -33,5 +33,8 @@ export function isSystemMessage(message: Message): message is SystemMessage {
 }
 
 export interface LLMInterface {
-  generateResponse(messages: Message[]): Promise<Action | null>;
+  generateResponse(
+    actions: string[],
+    messages: Message[],
+  ): Promise<Action | null>;
 }

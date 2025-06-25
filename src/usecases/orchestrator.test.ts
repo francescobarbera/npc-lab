@@ -8,22 +8,6 @@ import { WorldMock } from "../utils/mocks/world-mock.js";
 
 const test = suite("Orchestrator");
 
-test("initialise calls initialise on all NPCs", async () => {
-  const npc1 = new NPCMock();
-  const npc2 = new NPCMock();
-  const world = new WorldMock();
-
-  const npc1InitSpy = sinon.spy(npc1, "initialise");
-  const npc2InitSpy = sinon.spy(npc2, "initialise");
-
-  const orchestrator = new Orchestrator(world, [npc1, npc2]);
-
-  await orchestrator.initialise();
-
-  assert.ok(npc1InitSpy.calledOnce);
-  assert.ok(npc2InitSpy.calledOnce);
-});
-
 test("nextTurn increments turn and processes NPC actions", async () => {
   const npc1 = new NPCMock();
   const npc2 = new NPCMock();

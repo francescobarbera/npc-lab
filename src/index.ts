@@ -1,9 +1,9 @@
 import { OllamaImplementation } from "./dependencies-implementations/llm-ollama.js";
-import { collectFirewoodPrompt } from "./entities/action.js";
 import { NPC } from "./entities/npc/npc.js";
 import { Orchestrator } from "./usecases/orchestrator.js";
 import { World } from "./entities/world/world.js";
 import Logger from "./utils/logger.js";
+import { actions } from "./entities/action.js";
 
 const logger = new Logger("Main");
 
@@ -17,14 +17,13 @@ if (Number.isNaN(iterations)) {
 const llm = new OllamaImplementation();
 
 const npcs: NPC[] = [
-  new NPC(llm, "Carl", [collectFirewoodPrompt], {}),
-  new NPC(llm, "Bob", [collectFirewoodPrompt], {}),
+  new NPC(llm, "Carl", actions, {}),
+  new NPC(llm, "Bob", actions, {}),
 ];
 
 const world = new World("world_1", { firewood: 50 });
 
 const orchestrator = new Orchestrator(world, npcs);
-await orchestrator.initialise();
 
 for (let i = 0; iterations === 0 || i < iterations; i++) {
   await orchestrator.nextTurn();

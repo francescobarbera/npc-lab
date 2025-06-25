@@ -3,23 +3,13 @@ import sinon from "sinon";
 import * as assert from "uvu/assert";
 import { NPC } from "./npc.js";
 import { LLMMock } from "../../utils/mocks/llm-mock.js";
-import type { Action } from "../action.js";
+import { rest, type Action } from "../action.js";
 
 const test = suite("NPC");
 
-test("initialise calls llm.generateResponse", async () => {
-  const llm = new LLMMock();
-  const npc = new NPC(llm, "test_npc", ["rest"], { firewood: 0 });
-  const generateResponseSpy = sinon.spy(llm, "generateResponse");
-
-  await npc.initialise();
-
-  assert.is(generateResponseSpy.callCount, 1);
-});
-
 test("act calls llm.generateResponse and returns the response", async () => {
   const llm = new LLMMock();
-  const npc = new NPC(llm, "test_npc", ["rest"], { firewood: 0 });
+  const npc = new NPC(llm, "test_npc", [rest], { firewood: 0 });
   const action: Action = {
     type: "rest",
     reason: "reason",

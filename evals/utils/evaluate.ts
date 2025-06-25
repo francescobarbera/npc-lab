@@ -11,7 +11,12 @@ export const evaluate = async (
 
   const successCount = results.filter((r) => r === true).length;
 
-  return (
-    successCount >= Math.floor((iterationNumber / 100) * requiredPercentage)
+  const testsResult =
+    successCount >= Math.floor((iterationNumber / 100) * requiredPercentage);
+
+  console.log(
+    `Tests ${testsResult ? "succeded" : "failed"}. ${successCount} tests succeded over ${iterationNumber}`,
   );
+
+  return testsResult;
 };

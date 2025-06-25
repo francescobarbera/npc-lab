@@ -16,7 +16,10 @@ export class OpenAIImplementation implements LLMInterface {
     });
   }
 
-  async generateResponse(messages: Message[]): Promise<Action | null> {
+  async generateResponse(
+    actions: string[],
+    messages: Message[],
+  ): Promise<Action | null> {
     try {
       const completion = await this.openai.chat.completions.create({
         messages: messages.map((message) => ({
@@ -39,7 +42,7 @@ export class OpenAIImplementation implements LLMInterface {
                 properties: {
                   type: {
                     type: "string",
-                    enum: ["collect_firewood", "rest"],
+                    enum: actions,
                   },
                 },
                 required: ["type"],

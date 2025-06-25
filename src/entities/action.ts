@@ -1,7 +1,35 @@
 import type { ActionableEntity } from "./actionable-entity.js";
 import type { NPC } from "./npc/npc.js";
 
-export type ActionType = "wake_up" | "collect_firewood" | "rest";
+export type ActionType =
+  | "collect_gold"
+  | "collect_firewood"
+  | "collect_stone"
+  | "collect_iron"
+  | "collect_grain"
+  | "collect_water"
+  | "collect_clay"
+  | "collect_wool"
+  | "collect_fish"
+  | "collect_herbs"
+  | "rest";
+export type ActionDescriptorType =
+  | {
+      type: Exclude<ActionType, "rest">;
+      rules: {
+        left: string;
+        op: string;
+        right: number;
+      }[];
+    }
+  | {
+      type: "rest";
+      rules: [
+        {
+          fallback: true;
+        },
+      ];
+    };
 
 /*
  * The action describes the something that npcs can do.
@@ -15,10 +43,20 @@ type BaseAction = {
   actor: NPC;
 };
 
-export const collectFirewoodPrompt = `
-  If you have less than 50 kg of firewood, collect it.
-  IMPORTANT: You can only collect firewood if the world has more than 10 kg available. If the world has 10 kg or less, you MUST choose to rest instead.
-`;
+export const rest: ActionDescriptorType = {
+  type: "rest",
+  rules: [{ fallback: true }],
+};
+
+export const collectFirewood: ActionDescriptorType = {
+  type: "collect_firewood",
+  rules: [
+    { left: "owned.firewood", op: "<", right: 50 },
+    { left: "available.firewood", op: ">", right: 0 },
+  ],
+};
+
+export const actions = [collectFirewood, rest];
 
 export type CollectFirewoodAction = BaseAction & {
   type: "collect_firewood";

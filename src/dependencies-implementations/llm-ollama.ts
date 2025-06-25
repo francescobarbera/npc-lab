@@ -15,10 +15,16 @@ export class OllamaImplementation implements LLMInterface {
     this.model = model;
   }
 
-  async generateResponse(messages: Message[]): Promise<Action | null> {
+  async generateResponse(
+    actions: string[],
+    messages: Message[],
+  ): Promise<Action | null> {
     try {
       const response = await this.ollama.chat({
         model: this.model,
+        options: {
+          temperature: 0.5,
+        },
         messages: messages.map((message) => ({
           role: isSystemMessage(message)
             ? "system"
@@ -38,7 +44,7 @@ export class OllamaImplementation implements LLMInterface {
                 properties: {
                   type: {
                     type: "string",
-                    enum: ["collect_firewood", "rest"],
+                    enum: actions,
                   },
                   reason: {
                     type: "string",

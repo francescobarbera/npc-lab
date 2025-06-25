@@ -19,12 +19,6 @@ export class Orchestrator {
     return this.currentTurn;
   }
 
-  public async initialise() {
-    this.logger.info("Initialising npcs");
-
-    await Promise.all(this.npcs.map((npc) => npc.initialise()));
-  }
-
   public async nextTurn() {
     this.currentTurn++;
 
