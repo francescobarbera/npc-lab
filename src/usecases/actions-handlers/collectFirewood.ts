@@ -1,6 +1,6 @@
-import type { ActionHandler } from "../../../types/action-handler.js";
-import type { Action } from "../../../types/action.js";
-import type { World } from "../world.js";
+import type { ActionHandler } from "../../types/action-handler.js";
+import type { Action } from "../../types/action.js";
+import type { World } from "../../entities/world/world.js";
 
 export class CollectFirewoodActionHandler implements ActionHandler {
   supports(action: Action): boolean {

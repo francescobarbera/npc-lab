@@ -5,8 +5,17 @@ import type {
 import type { Action, ActionDescriptorType } from "../../types/action.js";
 import { ActionableEntity } from "../actionable-entity.js";
 import type { ResourcesStatus } from "../../types/resources.js";
-import { CollectFirewoodActionHandler } from "./actions-handlers/collectFirewood.js";
+import { CollectGoldActionHandler } from "../../usecases/actions-handlers/collectGold.js";
+import { CollectStoneActionHandler } from "../../usecases/actions-handlers/collectStone.js";
+import { CollectIronActionHandler } from "../../usecases/actions-handlers/collectIron.js";
+import { CollectGrainActionHandler } from "../../usecases/actions-handlers/collectGrain.js";
+import { CollectWaterActionHandler } from "../../usecases/actions-handlers/collectWater.js";
+import { CollectClayActionHandler } from "../../usecases/actions-handlers/collectClay.js";
+import { CollectWoolActionHandler } from "../../usecases/actions-handlers/collectWool.js";
+import { CollectFishActionHandler } from "../../usecases/actions-handlers/collectFish.js";
+import { CollectHerbsActionHandler } from "../../usecases/actions-handlers/collectHerbs.js";
 import { getActPrompt, getSystemPrompt } from "./prompts.js";
+import { CollectFirewoodActionHandler } from "../../usecases/actions-handlers/collectFirewood.js";
 
 export class NPC extends ActionableEntity {
   private messageHistory: Message[] = [];
@@ -18,7 +27,18 @@ export class NPC extends ActionableEntity {
     initialResources: Partial<ResourcesStatus> = {},
   ) {
     super(`NPC ${name}`, initialResources);
-    this.registerActionHandler(new CollectFirewoodActionHandler());
+    this.registerActionHandlers([
+      new CollectFirewoodActionHandler(),
+      new CollectGoldActionHandler(),
+      new CollectStoneActionHandler(),
+      new CollectIronActionHandler(),
+      new CollectGrainActionHandler(),
+      new CollectWaterActionHandler(),
+      new CollectClayActionHandler(),
+      new CollectWoolActionHandler(),
+      new CollectFishActionHandler(),
+      new CollectHerbsActionHandler(),
+    ]);
     this.messageHistory.push({
       content: getSystemPrompt(this.name, this.actions),
     });

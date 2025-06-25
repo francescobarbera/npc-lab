@@ -1,9 +1,11 @@
 import { World } from "../../entities/world/world.js";
+import { resources, type ResourcesStatus } from "../../types/resources.js";
 
 export class WorldMock extends World {
-  public decreaseFirewood = () => {};
-
   constructor() {
-    super("mock_world", { firewood: 10 });
+    super(
+      "mock_world",
+      Object.fromEntries(resources.map((r) => [r, 100])) as ResourcesStatus,
+    );
   }
 }

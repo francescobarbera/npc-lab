@@ -14,16 +14,16 @@ class Entity extends ActionableEntity {
     return this.actionHandlers;
   }
 
-  publicRegisterActionHandler(handler: ActionHandler) {
-    this.registerActionHandler(handler);
+  publicRegisterActionHandlers(handlers: ActionHandler[]) {
+    this.registerActionHandlers(handlers);
   }
 }
 
-test("registerActionHandler pushes tihe provided handler in the inner list", () => {
+test("registerActionHandlers pushes the provided handlers in the inner list", () => {
   const actionHandler = new ActionHandlerMock();
 
   const entity = new Entity("test_scope", {});
-  entity.publicRegisterActionHandler(actionHandler);
+  entity.publicRegisterActionHandlers([actionHandler]);
 
   assert.ok(entity.getActionHandlers.includes(actionHandler));
 });
@@ -39,8 +39,8 @@ test("handleAction calls the first supporting handler's handle method", () => {
   const handler1 = new ActionHandlerMock(false);
   const handler2 = new ActionHandlerMock(true);
   const entity = new Entity("test_scope", {});
-  entity.publicRegisterActionHandler(handler1);
-  entity.publicRegisterActionHandler(handler2);
+  entity.publicRegisterActionHandlers([handler1]);
+  entity.publicRegisterActionHandlers([handler2]);
 
   entity.handleAction(action);
 
@@ -59,7 +59,7 @@ test("handleAction logs info if no handler supports the action", () => {
   };
   const handler = new ActionHandlerMock(false);
   const entity = new Entity("test_scope", {});
-  entity.publicRegisterActionHandler(handler);
+  entity.publicRegisterActionHandlers([handler]);
 
   entity.handleAction(action);
 

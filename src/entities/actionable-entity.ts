@@ -20,8 +20,8 @@ export abstract class ActionableEntity {
     );
   }
 
-  protected registerActionHandler(handler: ActionHandler): void {
-    this.actionHandlers.push(handler);
+  protected registerActionHandlers(handlers: ActionHandler[]): void {
+    this.actionHandlers.push(...handlers);
   }
 
   get resources(): ResourcesStatus {
