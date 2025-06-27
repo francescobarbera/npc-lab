@@ -5,17 +5,8 @@ import type {
 import type { Action, ActionDescriptorType } from "../../types/action.js";
 import { ActionableEntity } from "../actionable-entity.js";
 import type { ResourcesStatus } from "../../types/resources.js";
-import { CollectGoldActionHandler } from "../../usecases/actions-handlers/collectGold.js";
-import { CollectStoneActionHandler } from "../../usecases/actions-handlers/collectStone.js";
-import { CollectIronActionHandler } from "../../usecases/actions-handlers/collectIron.js";
-import { CollectGrainActionHandler } from "../../usecases/actions-handlers/collectGrain.js";
-import { CollectWaterActionHandler } from "../../usecases/actions-handlers/collectWater.js";
-import { CollectClayActionHandler } from "../../usecases/actions-handlers/collectClay.js";
-import { CollectWoolActionHandler } from "../../usecases/actions-handlers/collectWool.js";
-import { CollectFishActionHandler } from "../../usecases/actions-handlers/collectFish.js";
-import { CollectHerbsActionHandler } from "../../usecases/actions-handlers/collectHerbs.js";
 import { getActPrompt, getSystemPrompt } from "./prompts.js";
-import { CollectFirewoodActionHandler } from "../../usecases/actions-handlers/collectFirewood.js";
+import { ActionHandler } from "./actionHandler.js";
 
 export class NPC extends ActionableEntity {
   private messageHistory: Message[] = [];
@@ -28,16 +19,16 @@ export class NPC extends ActionableEntity {
   ) {
     super(`NPC ${name}`, initialResources);
     this.registerActionHandlers([
-      new CollectFirewoodActionHandler(),
-      new CollectGoldActionHandler(),
-      new CollectStoneActionHandler(),
-      new CollectIronActionHandler(),
-      new CollectGrainActionHandler(),
-      new CollectWaterActionHandler(),
-      new CollectClayActionHandler(),
-      new CollectWoolActionHandler(),
-      new CollectFishActionHandler(),
-      new CollectHerbsActionHandler(),
+      new ActionHandler("collect_gold", "gold"),
+      new ActionHandler("collect_firewood", "firewood"),
+      new ActionHandler("collect_stone", "stone"),
+      new ActionHandler("collect_iron", "iron"),
+      new ActionHandler("collect_grain", "grain"),
+      new ActionHandler("collect_water", "water"),
+      new ActionHandler("collect_clay", "clay"),
+      new ActionHandler("collect_wool", "wool"),
+      new ActionHandler("collect_fish", "fish"),
+      new ActionHandler("collect_herbs", "herbs"),
     ]);
     this.messageHistory.push({
       content: getSystemPrompt(this.name, this.actions),

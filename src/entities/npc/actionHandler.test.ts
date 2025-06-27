@@ -1,16 +1,15 @@
 import { suite } from "uvu";
 import sinon from "sinon";
 import * as assert from "uvu/assert";
-import { CollectClayActionHandler } from "./collectClay.js";
+import { ActionHandler } from "./actionHandler.js";
 import type { Action } from "../../types/action.js";
-import { WorldMock } from "../../utils/mocks/world-mock.js";
 import { NPCMock } from "../../utils/mocks/npc-mock.js";
 
-const test = suite("World CollectClayActionHandler");
+const test = suite("NPC ActionHandler");
 
 test("supports returns true if action type is collect_clay", () => {
   const npc = new NPCMock();
-  const handler = new CollectClayActionHandler();
+  const handler = new ActionHandler("collect_clay", "clay");
   const action: Action = {
     iteration: 0,
     reason: "reason",
@@ -25,7 +24,7 @@ test("supports returns true if action type is collect_clay", () => {
 
 test("supports returns false if action type is not collect_clay", () => {
   const npc = new NPCMock();
-  const handler = new CollectClayActionHandler();
+  const handler = new ActionHandler("collect_clay", "clay");
   const action: Action = {
     iteration: 0,
     reason: "reason",
@@ -38,15 +37,15 @@ test("supports returns false if action type is not collect_clay", () => {
   assert.is(result, false);
 });
 
-test("handle calls world decreaseResource method passing the resource name 'clay' and the number 10", () => {
-  const world = new WorldMock();
-  const handler = new CollectClayActionHandler();
-  const worldDecreaseResourceSpy = sinon.spy(world, "decreaseResource");
+test("handle calls npc increaseResource method passing the resource name 'clay' and the number 10", () => {
+  const npc = new NPCMock();
+  const handler = new ActionHandler("collect_clay", "clay");
+  const npcIncreaseResourceSpy = sinon.spy(npc, "increaseResource");
 
-  handler.handle(world);
+  handler.handle(npc);
 
-  assert.is(worldDecreaseResourceSpy.callCount, 1);
-  assert.equal(worldDecreaseResourceSpy.getCall(0).args, ["clay", 10]);
+  assert.is(npcIncreaseResourceSpy.callCount, 1);
+  assert.equal(npcIncreaseResourceSpy.getCall(0).args, ["clay", 10]);
 });
 
 test.run();

@@ -1,6 +1,6 @@
 import type { NPC } from "../entities/npc/npc.js";
 
-type ActionType =
+export type ActionType =
   | "collect_gold"
   | "collect_firewood"
   | "collect_stone"
