@@ -3,7 +3,7 @@ import { NPC } from "./entities/npc/npc.js";
 import { Orchestrator } from "./usecases/orchestrator.js";
 import { World } from "./entities/world/world.js";
 import Logger from "./utils/logger.js";
-import { actions } from "./usecases/actions.js";
+import { actionTypes } from "./types/action.js";
 
 const logger = new Logger("Main");
 
@@ -17,8 +17,8 @@ if (Number.isNaN(iterations)) {
 const llm = new OllamaImplementation();
 
 const npcs: NPC[] = [
-  new NPC(llm, "Carl", actions, {}),
-  new NPC(llm, "Bob", actions, {}),
+  new NPC(llm, "Carl", [...actionTypes], {}),
+  new NPC(llm, "Bob", [...actionTypes], {}),
 ];
 
 const world = new World("world_1", { firewood: 50 });

@@ -2,10 +2,10 @@ import { suite } from "uvu";
 import * as assert from "uvu/assert";
 import { NPC } from "../src/entities/npc/npc.js";
 import { OllamaImplementation } from "../src/dependencies-implementations/llm-ollama.js";
-import { actions } from "../src/usecases/actions.js";
 import { evaluate } from "./utils/evaluate.js";
 import { logTestResult } from "./utils/logger.js";
 import { resourcesStatusMock } from "../src/utils/mocks/resources-status-mock.js";
+import { actionTypes } from "../src/types/action.js";
 
 const ITERATIONS_NUMBER = process.env.ITERATIONS_NUMBER;
 
@@ -19,7 +19,7 @@ test("all the resources are set to 0, so no rule passes, it must decide to rest"
     100,
     async () => {
       const llm = new OllamaImplementation();
-      const npc = new NPC(llm, "test_npc", actions, {});
+      const npc = new NPC(llm, "test_npc", [...actionTypes], {});
       const action = await npc.act(resourcesStatusMock);
 
       if (!action) {

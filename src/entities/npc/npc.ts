@@ -2,7 +2,7 @@ import type {
   LLMInterface,
   Message,
 } from "../../dependencies-interfaces/llm.js";
-import type { Action, ActionDescriptorType } from "../../types/action.js";
+import type { Action, ActionType } from "../../types/action.js";
 import { ActionableEntity } from "../actionable-entity.js";
 import type { ResourcesStatus } from "../../types/resources.js";
 import { getActPrompt, getSystemPrompt } from "./prompts.js";
@@ -14,7 +14,7 @@ export class NPC extends ActionableEntity {
   constructor(
     private readonly llm: LLMInterface,
     public readonly name: string,
-    private readonly actions: ActionDescriptorType[],
+    private readonly actions: ActionType[],
     initialResources: Partial<ResourcesStatus> = {},
   ) {
     super(`NPC ${name}`, initialResources);
@@ -40,9 +40,6 @@ export class NPC extends ActionableEntity {
       content: getActPrompt(this._resources, availableResources),
       sender: "user",
     });
-    return this.llm.generateResponse(
-      this.actions.map((action) => action.type),
-      this.messageHistory,
-    );
+    return this.llm.generateResponse(this.actions, this.messageHistory);
   }
 }
