@@ -32,7 +32,7 @@ export interface LLMInterface {
   generateResponse(
     messages: (SystemMessage | WorldMessage)[],
   ): Promise<NPCMessage | null>;
-  parseAction(
+  detectActionType(
     actions: ActionType[],
     message: NPCMessage,
   ): Promise<ActionType | null>;

@@ -11,7 +11,7 @@ import {
 const ITERATIONS_NUMBER = process.env.ITERATIONS_NUMBER;
 
 const test = suite(
-  `Eval lm studio parseAction implementation with ${ITERATIONS_NUMBER} iterations`,
+  `Eval lm studio detectActionType implementation with ${ITERATIONS_NUMBER} iterations`,
 );
 
 /*
@@ -37,7 +37,7 @@ test("correctly parses the action if it is included in the actions list", async 
       const randomResource =
         resources[Math.floor(Math.random() * resources.length)];
 
-      const action = await llm.parseAction(actions, {
+      const action = await llm.detectActionType(actions, {
         sender: "npc",
         content: generateNPCActiveResponse(randomResource),
       });
@@ -62,7 +62,7 @@ test("correctly parses the action deciding to rest", async () => {
       const actions = ["rest"];
       const resources = ["gold", "firewood", "stone", "iron", "grain"];
 
-      const action = await llm.parseAction(actions, {
+      const action = await llm.detectActionType(actions, {
         sender: "npc",
         content: generateNPCRestResponse(),
       });
@@ -96,7 +96,7 @@ test("returns null if in the sentence it is not clear what action to extract", a
         unknownResource[Math.floor(Math.random() * unknownResource.length)];
 
       const a = generateNPCActiveResponse(randomUnknownResource);
-      const action = await llm.parseAction(actions, {
+      const action = await llm.detectActionType(actions, {
         sender: "npc",
         content: a,
       });

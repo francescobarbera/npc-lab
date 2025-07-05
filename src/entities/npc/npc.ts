@@ -45,7 +45,7 @@ export class NPC extends ActionableEntity {
       return null;
     }
 
-    const actionType = await this.llm.parseAction(this.actions, response);
+    const actionType = await this.llm.detectActionType(this.actions, response);
     if (actionType === null) {
       return null;
     }

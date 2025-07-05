@@ -9,7 +9,7 @@ import type { NPCMessage } from "../../dependencies-interfaces/llm.js";
 
 const test = suite("NPC");
 
-test("act calls llm.generateResponse and parseAction and returns the response", async () => {
+test("act calls llm.generateResponse and detectActionType and returns the response", async () => {
   const llm = new LLMMock();
   const npc = new NPC(llm, "test_npc", ["rest"], { firewood: 0 });
   const npcMessage: NPCMessage = {
@@ -24,14 +24,14 @@ test("act calls llm.generateResponse and parseAction and returns the response", 
   const generateResponseSpy = sinon
     .stub(llm, "generateResponse")
     .resolves(npcMessage);
-  const parseActionResponseSpy = sinon
-    .stub(llm, "parseAction")
+  const detectActionTypeResponseSpy = sinon
+    .stub(llm, "detectActionType")
     .resolves("rest");
 
   const result = await npc.act(resourcesStatusMock);
 
   assert.is(generateResponseSpy.callCount, 1);
-  assert.is(parseActionResponseSpy.callCount, 1);
+  assert.is(detectActionTypeResponseSpy.callCount, 1);
   assert.equal(result, action);
 });
 

@@ -56,7 +56,7 @@ export class LMStudioImplementation implements LLMInterface {
     }
   }
 
-  async parseAction(
+  async detectActionType(
     availableActions: ActionType[],
     message: NPCMessage,
   ): Promise<ActionType | null> {

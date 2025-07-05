@@ -14,7 +14,7 @@ const createActionInterpreter = (() => {
   return (actions: ActionType[], llm: LLMInterface): ActionInterpreter => {
     if (!instance) {
       instance = {
-        parse: (message: NPCMessage) => llm.parseAction(actions, message),
+        parse: (message: NPCMessage) => llm.detectActionType(actions, message),
       };
     }
 
