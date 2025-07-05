@@ -50,7 +50,6 @@ export class NPC extends ActionableEntity {
       return null;
     }
 
-    console.log("AAA", actionType);
     return {
       type: actionType,
       reason: response.content,
