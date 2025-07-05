@@ -24,22 +24,12 @@ export class Orchestrator {
 
     this.logger.info(`Starting turn ${this.currentTurn}`);
 
-    const npcsActions = await this.collectNpcActions();
-    this.processNPCsActions(npcsActions.filter(isDefined));
+    for (const npc of this.npcs) {
+      const action = await npc.act(this.world.resources);
 
-    // TODO: introduce the concept of complaints
-  }
-
-  private async collectNpcActions() {
-    return Promise.all(this.npcs.map((npc) => npc.act(this.world.resources)));
-  }
-
-  private processNPCsActions(actions: Action[]) {
-    for (const action of actions) {
-      this.world.handleAction(action);
-
-      for (const npc of this.npcs) {
+      if (action) {
         npc.handleAction(action);
+        this.world.handleAction(action);
       }
     }
   }

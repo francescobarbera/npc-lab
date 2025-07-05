@@ -46,12 +46,10 @@ test("nextTurn increments turn and processes NPC actions", async () => {
   assert.ok(worldHandleActionSpy.calledWith(action2));
 
   assert.ok(npc1HandleActionSpy.calledWith(action1));
-  assert.ok(npc1HandleActionSpy.calledWith(action2));
-  assert.ok(npc2HandleActionSpy.calledWith(action1));
   assert.ok(npc2HandleActionSpy.calledWith(action2));
 });
 
-test("nextTurn filters out undefined actions", async () => {
+test("nextTurn filters out null actions", async () => {
   const npc1 = new NPCMock();
   const npc2 = new NPCMock();
 
@@ -62,7 +60,7 @@ test("nextTurn filters out undefined actions", async () => {
   };
 
   sinon.stub(npc1, "act").resolves(action);
-  sinon.stub(npc2, "act").resolves(undefined);
+  sinon.stub(npc2, "act").resolves(null);
 
   const world = new WorldMock();
   const worldHandleActionSpy = sinon.spy(world, "handleAction");
@@ -76,7 +74,7 @@ test("nextTurn filters out undefined actions", async () => {
   // Handlers are always called with action and never with null
   assert.ok(worldHandleActionSpy.calledOnceWith(action));
   assert.ok(npc1HandleActionSpy.calledOnceWith(action));
-  assert.ok(npc2HandleActionSpy.calledOnceWith(action));
+  assert.is(npc2HandleActionSpy.callCount, 0);
 });
 
 test.run();
