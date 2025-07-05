@@ -15,13 +15,11 @@ test("nextTurn increments turn and processes NPC actions", async () => {
   const action1: Action = {
     type: "rest",
     reason: "reason",
-    iteration: 1,
     actor: npc1,
   };
   const action2: Action = {
     type: "rest",
     reason: "reason",
-    iteration: 1,
     actor: npc2,
   };
 
@@ -60,7 +58,6 @@ test("nextTurn filters out undefined actions", async () => {
   const action: Action = {
     type: "rest",
     reason: "reason",
-    iteration: 1,
     actor: npc1,
   };
 

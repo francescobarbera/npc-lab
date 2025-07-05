@@ -38,8 +38,23 @@ export class NPC extends ActionableEntity {
   async act(availableResources: ResourcesStatus): Promise<Action | null> {
     this.messageHistory.push({
       content: getActPrompt(this._resources, availableResources),
-      sender: "user",
+      sender: "npc",
     });
-    return this.llm.generateResponse(this.actions, this.messageHistory);
+    const response = await this.llm.generateResponse(this.messageHistory);
+    if (response === null) {
+      return null;
+    }
+
+    const actionType = await this.llm.parseAction(this.actions, response);
+    if (actionType === null) {
+      return null;
+    }
+
+    console.log("AAA", actionType);
+    return {
+      type: actionType,
+      reason: response.content,
+      actor: this,
+    };
   }
 }

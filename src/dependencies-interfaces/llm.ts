@@ -1,31 +1,27 @@
-import type { Action } from "../types/action.js";
+import type { ActionType } from "../types/action.js";
 
-export type UserMessage = {
+export type WorldMessage = {
   content: string;
-  sender: "user";
-  type: string;
+  sender: "world";
 };
 
-export type AssistantMessage = {
+export type NPCMessage = {
   content: string;
-  sender: "assistant";
-  type: string;
+  sender: "npc";
 };
 
 export type SystemMessage = {
   content: string;
 };
 
-export type Message = UserMessage | AssistantMessage | SystemMessage;
+export type Message = WorldMessage | NPCMessage | SystemMessage;
 
-export function isUserMessage(message: Message): message is UserMessage {
-  return (message as UserMessage).sender === "user";
+export function isWorldMessage(message: Message): message is WorldMessage {
+  return (message as WorldMessage).sender === "world";
 }
 
-export function isAssistantMessage(
-  message: Message,
-): message is AssistantMessage {
-  return (message as AssistantMessage).sender === "assistant";
+export function isNPCMessage(message: Message): message is NPCMessage {
+  return (message as NPCMessage).sender === "npc";
 }
 
 export function isSystemMessage(message: Message): message is SystemMessage {
@@ -34,7 +30,10 @@ export function isSystemMessage(message: Message): message is SystemMessage {
 
 export interface LLMInterface {
   generateResponse(
-    actions: string[],
-    messages: Message[],
-  ): Promise<Action | null>;
+    messages: (SystemMessage | WorldMessage)[],
+  ): Promise<NPCMessage | null>;
+  parseAction(
+    actions: ActionType[],
+    message: NPCMessage,
+  ): Promise<ActionType | null>;
 }

@@ -12,7 +12,6 @@ test("supports returns true if action type is collect_clay", () => {
   const npc = new NPCMock();
   const handler = new ActionHandler("collect_clay", "clay");
   const action: Action = {
-    iteration: 0,
     reason: "reason",
     actor: npc,
     type: "collect_clay",
@@ -27,7 +26,6 @@ test("supports returns false if action type is not collect_clay", () => {
   const npc = new NPCMock();
   const handler = new ActionHandler("collect_clay", "clay");
   const action: Action = {
-    iteration: 0,
     reason: "reason",
     actor: npc,
     type: "rest",

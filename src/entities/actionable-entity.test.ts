@@ -33,7 +33,6 @@ test("handleAction calls the first supporting handler's handle method", () => {
   const action: Action = {
     type: "rest",
     reason: "reason",
-    iteration: 0,
     actor: npc,
   };
   const handler1 = new ActionHandlerMock(false);
@@ -54,7 +53,6 @@ test("handleAction logs info if no handler supports the action", () => {
   const action: Action = {
     type: "rest",
     reason: "reason",
-    iteration: 0,
     actor: npc,
   };
   const handler = new ActionHandlerMock(false);

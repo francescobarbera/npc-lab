@@ -5,25 +5,33 @@ import { NPC } from "./npc.js";
 import { LLMMock } from "../../utils/mocks/llm-mock.js";
 import type { Action } from "../../types/action.js";
 import { resourcesStatusMock } from "../../utils/mocks/resources-status-mock.js";
+import type { NPCMessage } from "../../dependencies-interfaces/llm.js";
 
 const test = suite("NPC");
 
-test("act calls llm.generateResponse and returns the response", async () => {
+test("act calls llm.generateResponse and parseAction and returns the response", async () => {
   const llm = new LLMMock();
   const npc = new NPC(llm, "test_npc", ["rest"], { firewood: 0 });
+  const npcMessage: NPCMessage = {
+    content: "content",
+    sender: "npc",
+  };
   const action: Action = {
     type: "rest",
-    reason: "reason",
-    iteration: 0,
+    reason: "content",
     actor: npc,
   };
   const generateResponseSpy = sinon
     .stub(llm, "generateResponse")
-    .resolves(action);
+    .resolves(npcMessage);
+  const parseActionResponseSpy = sinon
+    .stub(llm, "parseAction")
+    .resolves("rest");
 
   const result = await npc.act(resourcesStatusMock);
 
   assert.is(generateResponseSpy.callCount, 1);
+  assert.is(parseActionResponseSpy.callCount, 1);
   assert.equal(result, action);
 });
 

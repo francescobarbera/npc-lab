@@ -12,13 +12,16 @@ export const actionTypes = [
   "collect_fish",
   "collect_herbs",
   "rest",
-] as const;
+];
 
 export type ActionType = (typeof actionTypes)[number];
+
+export function isActionType(value: string): value is ActionType {
+  return typeof value === "string" && actionTypes.includes(value as ActionType);
+}
 
 export type Action = {
   type: ActionType;
   reason: string;
-  iteration: number;
   actor: NPC;
 };

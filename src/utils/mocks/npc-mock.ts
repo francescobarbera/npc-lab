@@ -1,4 +1,7 @@
-import type { LLMInterface } from "../../dependencies-interfaces/llm.js";
+import type {
+  LLMInterface,
+  NPCMessage,
+} from "../../dependencies-interfaces/llm.js";
 import type { Action } from "../../types/action.js";
 import { NPC } from "../../entities/npc/npc.js";
 
