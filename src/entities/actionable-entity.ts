@@ -28,29 +28,31 @@ export abstract class ActionableEntity {
     return this._resources;
   }
 
-  public decreaseResource(resource: ResourceType, number: number) {
+  public decreaseResource(resource: ResourceType, number: number): boolean {
     if (this._resources[resource] - number < 0) {
-      throw Error(`${resource} cannot be less than 0`);
+      return false;
     }
 
     this._resources[resource] -= number;
+    return true;
   }
 
-  public increaseResource(resource: ResourceType, number: number) {
+  public increaseResource(resource: ResourceType, number: number): boolean {
     this._resources[resource] += number;
+    return true;
   }
 
-  handleAction(action: Action): void {
+  handleAction(action: Action): boolean {
     for (const handler of this.actionHandlers) {
       this.logger.info(
         JSON.stringify({ type: action.type, reason: action.reason }),
       );
       if (handler.supports(action)) {
-        handler.handle(this);
-        return;
+        return handler.handle(this);
       }
     }
 
     this.logger.info(`No handler found for action type: ${action.type}`);
+    return false;
   }
 }

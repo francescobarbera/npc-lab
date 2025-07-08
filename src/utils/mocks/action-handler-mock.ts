@@ -15,7 +15,8 @@ export class ActionHandlerMock implements ActionHandler {
     return this.supported;
   }
 
-  handle(target: ActionableEntity): void {
+  handle(target: ActionableEntity): boolean {
     this.handleSpy(target);
+    return true;
   }
 }

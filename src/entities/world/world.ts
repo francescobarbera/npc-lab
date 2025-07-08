@@ -28,9 +28,10 @@ export class World extends ActionableEntity {
 
   public decreaseResource(resource: ResourceType, number: number) {
     if (this._resources[resource] - number < 0) {
-      throw Error(`${resource} cannot be less than 0`);
+      return false;
     }
 
     this._resources[resource] -= number;
+    return true;
   }
 }

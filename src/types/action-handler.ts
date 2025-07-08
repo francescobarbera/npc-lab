@@ -3,5 +3,5 @@ import type { Action } from "./action.js";
 
 export interface ActionHandler {
   supports(action: Action): boolean;
-  handle(target: ActionableEntity): void;
+  handle(target: ActionableEntity): boolean;
 }

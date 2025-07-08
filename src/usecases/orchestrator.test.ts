@@ -2,9 +2,12 @@ import { suite } from "uvu";
 import sinon from "sinon";
 import * as assert from "uvu/assert";
 import { Orchestrator } from "./orchestrator.js";
-import type { Action } from "../types/action.js";
+import { actionTypes, type Action } from "../types/action.js";
 import { NPCMock } from "../utils/mocks/npc-mock.js";
 import { WorldMock } from "../utils/mocks/world-mock.js";
+import { NPC } from "../entities/npc/npc.js";
+import { LLMMock } from "../utils/mocks/llm-mock.js";
+import { World } from "../entities/world/world.js";
 
 const test = suite("Orchestrator");
 
@@ -39,42 +42,57 @@ test("nextTurn increments turn and processes NPC actions", async () => {
 
   assert.is(orchestrator.currentTurnNumber, 1);
 
-  assert.ok((npc1.act as sinon.SinonStub).calledWith(world.resources));
-  assert.ok((npc2.act as sinon.SinonStub).calledWith(world.resources));
+  await orchestrator.nextTurn();
 
-  assert.ok(worldHandleActionSpy.calledWith(action1));
-  assert.ok(worldHandleActionSpy.calledWith(action2));
-
-  assert.ok(npc1HandleActionSpy.calledWith(action1));
-  assert.ok(npc2HandleActionSpy.calledWith(action2));
-});
-
-test("nextTurn filters out null actions", async () => {
-  const npc1 = new NPCMock();
-  const npc2 = new NPCMock();
-
-  const action: Action = {
-    type: "rest",
-    reason: "reason",
-    actor: npc1,
-  };
-
-  sinon.stub(npc1, "act").resolves(action);
-  sinon.stub(npc2, "act").resolves(null);
-
-  const world = new WorldMock();
-  const worldHandleActionSpy = sinon.spy(world, "handleAction");
-  const npc1HandleActionSpy = sinon.spy(npc1, "handleAction");
-  const npc2HandleActionSpy = sinon.spy(npc2, "handleAction");
-
-  const orchestrator = new Orchestrator(world, [npc1, npc2]);
+  assert.is(orchestrator.currentTurnNumber, 2);
 
   await orchestrator.nextTurn();
 
-  // Handlers are always called with action and never with null
-  assert.ok(worldHandleActionSpy.calledOnceWith(action));
-  assert.ok(npc1HandleActionSpy.calledOnceWith(action));
-  assert.is(npc2HandleActionSpy.callCount, 0);
+  assert.is(orchestrator.currentTurnNumber, 3);
+});
+
+test("if a npc action increase a resource and that resource is available in the world, increase for the npc and it decreases the resource in the world", async () => {
+  const llm = new LLMMock(null, null);
+  const npc1 = new NPC(llm, "npc_1_name", actionTypes, {});
+  sinon.stub(npc1, "act").resolves({
+    type: "collect_iron",
+    reason: "reason",
+    actor: npc1,
+  });
+
+  const world = new World("world_name", { iron: 50 });
+
+  const orchestrator = new Orchestrator(world, [npc1]);
+
+  assert.is(npc1.resources.iron, 0);
+  assert.is(world.resources.iron, 50);
+
+  await orchestrator.nextTurn();
+
+  assert.is(npc1.resources.iron, 10);
+  assert.is(world.resources.iron, 40);
+});
+
+test("if a npc action increase a resource and that resource is NOT available in the world, npc's and world's resource does not change", async () => {
+  const llm = new LLMMock(null, null);
+  const npc1 = new NPC(llm, "npc_1_name", actionTypes, { iron: 20 });
+  sinon.stub(npc1, "act").resolves({
+    type: "collect_iron",
+    reason: "reason",
+    actor: npc1,
+  });
+
+  const world = new World("world_name", { iron: 0 });
+
+  const orchestrator = new Orchestrator(world, [npc1]);
+
+  assert.is(npc1.resources.iron, 20);
+  assert.is(world.resources.iron, 0);
+
+  await orchestrator.nextTurn();
+
+  assert.is(npc1.resources.iron, 20);
+  assert.is(world.resources.iron, 0);
 });
 
 test.run();

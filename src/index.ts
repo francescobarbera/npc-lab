@@ -17,8 +17,8 @@ if (Number.isNaN(iterations)) {
 const llm = new LMStudioImplementation();
 
 const npcs: NPC[] = [
-  new NPC(llm, "Carl", [...actionTypes], {}),
-  new NPC(llm, "Bob", [...actionTypes], {}),
+  new NPC(llm, "Carl", actionTypes, {}),
+  new NPC(llm, "Bob", actionTypes, {}),
 ];
 
 const world = new World("world_1", { firewood: 50 });

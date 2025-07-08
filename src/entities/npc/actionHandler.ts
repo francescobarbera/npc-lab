@@ -13,7 +13,7 @@ export class ActionHandler implements ActionHandlerInterface {
     return action.type === this.actionType;
   }
 
-  handle(npc: NPC): void {
-    npc.increaseResource(this.resource, 10);
+  handle(npc: NPC): boolean {
+    return npc.increaseResource(this.resource, 10);
   }
 }

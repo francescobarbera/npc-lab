@@ -1,6 +1,5 @@
 import { isDefined } from "../utils/isDefined.js";
 import Logger from "../utils/logger.js";
-import type { Action, ActionType } from "../types/action.js";
 import type { NPC } from "../entities/npc/npc.js";
 import type { World } from "../entities/world/world.js";
 
@@ -25,11 +24,21 @@ export class Orchestrator {
     this.logger.info(`Starting turn ${this.currentTurn}`);
 
     for (const npc of this.npcs) {
-      const action = await npc.act(this.world.resources);
+      let action = await npc.act(this.world.resources);
 
       if (action) {
-        npc.handleAction(action);
-        this.world.handleAction(action);
+        const isActionAllowed = this.world.handleAction(action);
+        if (isActionAllowed) {
+          npc.handleAction(action);
+        } else {
+          action = await npc.act(this.world.resources);
+          if (action) {
+            const isActionAllowed = this.world.handleAction(action);
+            if (isActionAllowed) {
+              npc.handleAction(action);
+            }
+          }
+        }
       }
     }
   }
