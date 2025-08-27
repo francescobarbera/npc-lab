@@ -44,9 +44,6 @@ export abstract class ActionableEntity {
 
   handleAction(action: Action): boolean {
     for (const handler of this.actionHandlers) {
-      this.logger.info(
-        JSON.stringify({ type: action.type, reason: action.reason }),
-      );
       if (handler.supports(action)) {
         return handler.handle(this);
       }

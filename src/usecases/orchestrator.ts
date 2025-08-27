@@ -23,22 +23,27 @@ export class Orchestrator {
 
     this.logger.info(`Starting turn ${this.currentTurn}`);
 
+    async function getAllowedAction(npc: NPC, world: World, attempts: number) {
+      let remaining = attempts;
+
+      while (remaining-- > 0) {
+        const action = await npc.act(world.resources);
+
+        if (!action) {
+          return null;
+        }
+        if (world.handleAction(action)) {
+          return action;
+        }
+      }
+      return null;
+    }
+
     for (const npc of this.npcs) {
-      let action = await npc.act(this.world.resources);
+      const action = await getAllowedAction(npc, this.world, 2);
 
       if (action) {
-        const isActionAllowed = this.world.handleAction(action);
-        if (isActionAllowed) {
-          npc.handleAction(action);
-        } else {
-          action = await npc.act(this.world.resources);
-          if (action) {
-            const isActionAllowed = this.world.handleAction(action);
-            if (isActionAllowed) {
-              npc.handleAction(action);
-            }
-          }
-        }
+        npc.handleAction(action);
       }
     }
   }
