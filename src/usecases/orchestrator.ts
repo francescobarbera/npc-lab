@@ -1,4 +1,3 @@
-import { isDefined } from "../utils/isDefined.js";
 import Logger from "../utils/logger.js";
 import type { NPC } from "../entities/npc/npc.js";
 import type { World } from "../entities/world/world.js";
@@ -10,12 +9,17 @@ export class Orchestrator {
   constructor(
     private readonly world: World,
     private readonly npcs: NPC[],
+    private readonly turnsPerDay = 5,
   ) {
     this.logger = new Logger("Orchestrator");
   }
 
   get currentTurnNumber(): number {
     return this.currentTurn;
+  }
+
+  get currentDayNumber(): number {
+    return Math.ceil((this.currentTurn + 1) / this.turnsPerDay);
   }
 
   public async nextTurn() {

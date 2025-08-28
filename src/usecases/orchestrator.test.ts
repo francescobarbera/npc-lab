@@ -30,9 +30,6 @@ test("nextTurn increments turn and processes NPC actions", async () => {
   sinon.stub(npc2, "act").resolves(action2);
 
   const world = new WorldMock();
-  const worldHandleActionSpy = sinon.spy(world, "handleAction");
-  const npc1HandleActionSpy = sinon.spy(npc1, "handleAction");
-  const npc2HandleActionSpy = sinon.spy(npc2, "handleAction");
 
   const orchestrator = new Orchestrator(world, [npc1, npc2]);
 
@@ -93,6 +90,32 @@ test("if a npc action increase a resource and that resource is NOT available in 
 
   assert.is(npc1.resources.iron, 20);
   assert.is(world.resources.iron, 0);
+});
+
+test("it return the current day based on the current turn", () => {
+  const llm = new LLMMock(null, null);
+  const npc1 = new NPC(llm, "npc_1_name", actionTypes, { iron: 20 });
+  sinon.stub(npc1, "act").resolves({
+    type: "rest",
+    reason: "I am tired",
+    actor: npc1,
+  });
+
+  const world = new World("world_name", { iron: 0 });
+
+  const orchestrator = new Orchestrator(world, [npc1], 2);
+
+  assert.is(orchestrator.currentDayNumber, 1);
+  orchestrator.nextTurn();
+  assert.is(orchestrator.currentDayNumber, 1);
+  orchestrator.nextTurn();
+  assert.is(orchestrator.currentDayNumber, 2);
+  orchestrator.nextTurn();
+  assert.is(orchestrator.currentDayNumber, 2);
+  orchestrator.nextTurn();
+  assert.is(orchestrator.currentDayNumber, 3);
+  orchestrator.nextTurn();
+  assert.is(orchestrator.currentDayNumber, 3);
 });
 
 test.run();
