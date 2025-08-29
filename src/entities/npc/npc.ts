@@ -32,10 +32,10 @@ export class NPC extends ActionableEntity {
       new ActionHandler("collect_herbs", "herbs"),
     ]);
     this.messageHistory.push({
-      content: getSystemPrompt(
-        this.name,
-        Object.keys(filterAvailableResources(this._resources)),
-      ),
+      content: getSystemPrompt(this.name, [
+        ...Object.keys(filterAvailableResources(this._resources)),
+        "rest",
+      ]),
     });
   }
 

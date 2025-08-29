@@ -9,10 +9,10 @@ import { LMStudioImplementation } from "../src/dependencies-implementations/lm-s
 const ITERATIONS_NUMBER = process.env.ITERATIONS_NUMBER;
 
 const test = suite(
-  `Eval collect firewood with ${ITERATIONS_NUMBER} iterations`,
+  `Eval resources choice with ${ITERATIONS_NUMBER} iterations`,
 );
 
-test("all the resources are set to 0, so no rule passes, it must decide to rest", async () => {
+test("if all resources are set to 0 the chosen action is rest", async () => {
   const testResult = await evaluate(
     Number(ITERATIONS_NUMBER),
     100,

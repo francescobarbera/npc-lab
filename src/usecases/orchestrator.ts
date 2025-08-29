@@ -54,10 +54,11 @@ export class Orchestrator {
     }
 
     for (const npc of this.npcs) {
-      const action = await getAllowedAction(npc, this.world, 2);
+      const action = await npc.act(this.world.resources);
 
       if (action) {
         npc.handleAction(action);
+        this.world.handleAction(action);
       }
     }
   }

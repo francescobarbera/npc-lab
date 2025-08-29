@@ -42,7 +42,7 @@ export abstract class ActionableEntity {
     return true;
   }
 
-  handleAction(action: Action): boolean {
+  handleAction(action: Action) {
     for (const handler of this.actionHandlers) {
       if (handler.supports(action)) {
         return handler.handle(this);
@@ -50,6 +50,5 @@ export abstract class ActionableEntity {
     }
 
     this.logger.info(`No handler found for action type: ${action.type}`);
-    return false;
   }
 }
