@@ -13,7 +13,7 @@ export class ActionHandler implements ActionHandlerInterface {
     return action.type === this.actionType;
   }
 
-  handle(world: World): boolean {
-    return world.decreaseResource(this.resource, 10);
+  handle(world: World) {
+    world.decreaseResource(this.resource, 10);
   }
 }

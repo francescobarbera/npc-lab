@@ -28,18 +28,14 @@ export abstract class ActionableEntity {
     return this._resources;
   }
 
-  public decreaseResource(resource: ResourceType, number: number): boolean {
-    if (this._resources[resource] - number < 0) {
-      return false;
+  public decreaseResource(resource: ResourceType, number: number) {
+    if (this._resources[resource] - number >= 0) {
+      this._resources[resource] -= number;
     }
-
-    this._resources[resource] -= number;
-    return true;
   }
 
-  public increaseResource(resource: ResourceType, number: number): boolean {
+  public increaseResource(resource: ResourceType, number: number) {
     this._resources[resource] += number;
-    return true;
   }
 
   handleAction(action: Action) {

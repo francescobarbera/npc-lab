@@ -57,6 +57,8 @@ export class NPC extends ActionableEntity {
       return null;
     }
 
+    this.logger.info(actionType);
+
     return {
       type: actionType,
       reason: response.content,

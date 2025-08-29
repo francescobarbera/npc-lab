@@ -83,22 +83,20 @@ test("sets the provided resources with the provided value", () => {
   assert.is(entity.resources.stone, 0);
 });
 
-test("decreaseResource correctly decreases the provided resource and return tru", () => {
+test("decreaseResource correctly decreases the provided resource", () => {
   const entity = new Entity("test", { firewood: 50 });
 
-  const result = entity.decreaseResource("firewood", 40);
+  entity.decreaseResource("firewood", 40);
 
   assert.is(entity.resources.firewood, 10);
-  assert.ok(result);
 });
 
-test("decreaseResource return false and keep the resource as is if the resource goes under 0", () => {
+test("decreaseResource keeps the resource as is if the resource goes under 0", () => {
   const entity = new Entity("test_world", { firewood: 10 });
 
-  const result = entity.decreaseResource("firewood", 20);
+  entity.decreaseResource("firewood", 20);
 
   assert.is(entity.resources.firewood, 10);
-  assert.ok(!result);
 });
 
 test("increaseResource correctly increases the provided resource", () => {

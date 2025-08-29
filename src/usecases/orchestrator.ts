@@ -28,31 +28,6 @@ export class Orchestrator {
 
     this.logger.info(`Starting turn ${this.currentTurn}`);
 
-    async function getAllowedAction(
-      npc: NPC,
-      world: World,
-      attempts: number,
-    ): Promise<Action> {
-      let remaining = attempts;
-      const defaultAction = {
-        type: "rest",
-        reason: "default action",
-        actor: npc,
-      };
-
-      while (remaining-- > 0) {
-        const action = await npc.act(world.resources);
-
-        if (!action) {
-          return defaultAction;
-        }
-        if (world.handleAction(action)) {
-          return action;
-        }
-      }
-      return defaultAction;
-    }
-
     for (const npc of this.npcs) {
       const action = await npc.act(this.world.resources);
 
