@@ -1,6 +1,7 @@
 import Logger from "../utils/logger.js";
 import type { NPC } from "../entities/npc/npc.js";
 import type { World } from "../entities/world/world.js";
+import type { Action } from "../types/action.js";
 
 export class Orchestrator {
   private logger: Logger;
@@ -27,20 +28,29 @@ export class Orchestrator {
 
     this.logger.info(`Starting turn ${this.currentTurn}`);
 
-    async function getAllowedAction(npc: NPC, world: World, attempts: number) {
+    async function getAllowedAction(
+      npc: NPC,
+      world: World,
+      attempts: number,
+    ): Promise<Action> {
       let remaining = attempts;
+      const defaultAction = {
+        type: "rest",
+        reason: "default action",
+        actor: npc,
+      };
 
       while (remaining-- > 0) {
         const action = await npc.act(world.resources);
 
         if (!action) {
-          return null;
+          return defaultAction;
         }
         if (world.handleAction(action)) {
           return action;
         }
       }
-      return null;
+      return defaultAction;
     }
 
     for (const npc of this.npcs) {
