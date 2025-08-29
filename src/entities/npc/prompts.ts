@@ -11,8 +11,8 @@ export const getSystemPrompt = (name: string, actions: ActionType[]) => `
 `;
 
 export const getActPrompt = (
-  owenedResources: ResourcesStatus,
-  availableResources: ResourcesStatus,
+  owenedResources: Partial<ResourcesStatus>,
+  availableResources: Partial<ResourcesStatus>,
 ) => `
   CURRENT_RESOURCES_STATE =
   {

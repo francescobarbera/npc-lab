@@ -7,6 +7,7 @@ import { ActionableEntity } from "../actionable-entity.js";
 import type { ResourcesStatus } from "../../types/resources.js";
 import { getActPrompt, getSystemPrompt } from "./prompts.js";
 import { ActionHandler } from "./actionHandler.js";
+import { filterAvailableResources } from "../../utils/filterAvailableResources.js";
 
 export class NPC extends ActionableEntity {
   private messageHistory: Message[] = [];
@@ -31,13 +32,19 @@ export class NPC extends ActionableEntity {
       new ActionHandler("collect_herbs", "herbs"),
     ]);
     this.messageHistory.push({
-      content: getSystemPrompt(this.name, this.actions),
+      content: getSystemPrompt(
+        this.name,
+        Object.keys(filterAvailableResources(this._resources)),
+      ),
     });
   }
 
   async act(availableResources: ResourcesStatus): Promise<Action | null> {
     this.messageHistory.push({
-      content: getActPrompt(this._resources, availableResources),
+      content: getActPrompt(
+        filterAvailableResources(this._resources),
+        filterAvailableResources(availableResources),
+      ),
       sender: "npc",
     });
     const response = await this.llm.generateResponse(this.messageHistory);
