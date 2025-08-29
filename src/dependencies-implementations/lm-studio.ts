@@ -13,7 +13,7 @@ export class LMStudioImplementation implements LLMInterface {
 
   constructor(
     endpoint = "http://localhost:1234/v1/chat/completions",
-    model = "llama-3.2-1b-instruct",
+    model = "llama-3.2-3b-instruct",
   ) {
     this.endpoint = endpoint;
     this.model = model;
