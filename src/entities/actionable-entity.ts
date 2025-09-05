@@ -41,10 +41,8 @@ export abstract class ActionableEntity {
   handleAction(action: Action) {
     for (const handler of this.actionHandlers) {
       if (handler.supports(action)) {
-        return handler.handle(this);
+        handler.handle(this);
       }
     }
-
-    this.logger.info(`No handler found for action type: ${action.type}`);
   }
 }
