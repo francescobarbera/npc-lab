@@ -29,7 +29,7 @@ const world = new World("world_1", {
   grain: 50,
 });
 
-const orchestrator = new Orchestrator(world, npcs);
+const orchestrator = new Orchestrator(world, npcs, 5);
 
 for (let i = 0; iterations === 0 || i < iterations; i++) {
   await orchestrator.nextTurn();
