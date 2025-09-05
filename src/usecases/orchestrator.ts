@@ -23,10 +23,24 @@ export class Orchestrator {
     return Math.ceil((this.currentTurn + 1) / this.turnsPerDay);
   }
 
-  get isFirstTurnOfDay(): boolean {
-    return (
-      this.currentTurn !== 0 && (this.currentTurn - 1) % this.turnsPerDay === 0
-    );
+  get isLastTurnOfDay(): boolean {
+    return this.currentTurn !== 0 && this.currentTurn % this.turnsPerDay === 0;
+  }
+
+  private replenishWorldResources(amount: number) {
+    for (const resource of Object.keys(this.world.resources)) {
+      this.world.increaseResource(resource as ResourceType, amount);
+    }
+  }
+
+  private decayNPCResources(amount: number) {
+    for (const npc of this.npcs) {
+      for (const resource of Object.keys(this.world.resources)) {
+        if (npc.resources[resource as ResourceType] > 0) {
+          npc.decreaseResource(resource as ResourceType, amount);
+        }
+      }
+    }
   }
 
   public async nextTurn() {
@@ -43,10 +57,9 @@ export class Orchestrator {
       }
     }
 
-    if (this.isFirstTurnOfDay) {
-      for (const resource of Object.keys(this.world.resources)) {
-        this.world.increaseResource(resource as ResourceType, 10);
-      }
+    if (this.isLastTurnOfDay) {
+      this.replenishWorldResources(10);
+      this.decayNPCResources(10);
     }
   }
 }

@@ -67,7 +67,7 @@ test("when a npc action increase a resource, it increases for the npc and it dec
   await orchestrator.nextTurn();
 
   assert.is(npc1.resources.iron, 10);
-  assert.is(world.resources.iron, 50);
+  assert.is(world.resources.iron, 40);
 });
 
 test("it return the current day based on the current turn", () => {
@@ -96,7 +96,7 @@ test("it return the current day based on the current turn", () => {
   assert.is(orchestrator.currentDayNumber, 3);
 });
 
-test("it correctly identifies the first turn of each day", async () => {
+test("it correctly identifies the last turn of each day", async () => {
   const npc1 = new NPCMock();
   sinon.stub(npc1, "act").resolves({
     type: "rest",
@@ -109,49 +109,43 @@ test("it correctly identifies the first turn of each day", async () => {
   const orchestrator = new Orchestrator(world, [npc1], 3);
 
   await orchestrator.nextTurn();
-  assert.ok(
-    orchestrator.isFirstTurnOfDay,
-    "Turn 1 should be first turn of day",
+  assert.not.ok(
+    orchestrator.isLastTurnOfDay,
+    "Turn 1 is not the last of the day",
   );
 
   await orchestrator.nextTurn();
   assert.not.ok(
-    orchestrator.isFirstTurnOfDay,
-    "Turn 2 is not first turn of day",
+    orchestrator.isLastTurnOfDay,
+    "Turn 2 is not the last of the day",
+  );
+
+  await orchestrator.nextTurn();
+  assert.ok(orchestrator.isLastTurnOfDay, "Turn 3 is the last of the day");
+
+  await orchestrator.nextTurn();
+  assert.not.ok(
+    orchestrator.isLastTurnOfDay,
+    "Turn 4 is not the last of the day",
   );
 
   await orchestrator.nextTurn();
   assert.not.ok(
-    orchestrator.isFirstTurnOfDay,
-    "Turn 3 is not first turn of day",
+    orchestrator.isLastTurnOfDay,
+    "Turn 5 is not the last of the day",
   );
 
   await orchestrator.nextTurn();
-  assert.ok(
-    orchestrator.isFirstTurnOfDay,
-    "Turn 4 should be first turn of day",
-  );
+  assert.ok(orchestrator.isLastTurnOfDay, "Turn 6 is  the last of the day");
 
   await orchestrator.nextTurn();
   assert.not.ok(
-    orchestrator.isFirstTurnOfDay,
-    "Turn 5 is not first turn of day",
-  );
-
-  await orchestrator.nextTurn();
-  assert.not.ok(
-    orchestrator.isFirstTurnOfDay,
-    "Turn 6 is not first turn of day",
-  );
-
-  await orchestrator.nextTurn();
-  assert.ok(
-    orchestrator.isFirstTurnOfDay,
-    "Turn 7 should be first turn of day",
+    orchestrator.isLastTurnOfDay,
+    "Turn 7 is not the last of the day",
   );
 });
 
-test("it increases the resources after each day", async () => {
+test("it increases the resources of the world after each day", async () => {
   const llm = new LLMMock(null, null);
   const npc1 = new NPC(llm, "npc_1_name", actionTypes, { iron: 20 }, {});
   sinon.stub(npc1, "act").resolves({
@@ -167,6 +161,7 @@ test("it increases the resources after each day", async () => {
   assert.is(world.resources.iron, 0);
 
   await orchestrator.nextTurn();
+
   assert.is(world.resources.iron, 10);
   assert.is(world.resources.clay, 10);
   assert.is(world.resources.water, 10);
@@ -178,6 +173,61 @@ test("it increases the resources after each day", async () => {
   assert.is(world.resources.clay, 20);
   assert.is(world.resources.water, 20);
   assert.is(world.resources.firewood, 60);
+});
+
+test("it decreases the resources the NPCs after each day", async () => {
+  const llm = new LLMMock(null, null);
+  const npc1 = new NPC(
+    llm,
+    "npc_1_name",
+    actionTypes,
+    { iron: 20, gold: 10 },
+    {},
+  );
+  const npc2 = new NPC(
+    llm,
+    "npc_1_name",
+    actionTypes,
+    { grain: 30, water: 50 },
+    {},
+  );
+  sinon.stub(npc1, "act").resolves({
+    type: "rest",
+    reason: "I am tired",
+    actor: npc1,
+  });
+
+  const world = new World("world_name", { iron: 0, firewood: 40 });
+
+  const orchestrator = new Orchestrator(world, [npc1, npc2], 1);
+
+  assert.is(npc1.resources.iron, 20);
+  assert.is(npc1.resources.gold, 10);
+  assert.is(npc1.resources.water, 0);
+
+  assert.is(npc2.resources.grain, 30);
+  assert.is(npc2.resources.water, 50);
+  assert.is(npc2.resources.gold, 0);
+
+  await orchestrator.nextTurn();
+
+  assert.is(npc1.resources.iron, 10);
+  assert.is(npc1.resources.gold, 0);
+  assert.is(npc1.resources.water, 0);
+
+  assert.is(npc2.resources.grain, 20);
+  assert.is(npc2.resources.water, 40);
+  assert.is(npc2.resources.gold, 0);
+
+  await orchestrator.nextTurn();
+
+  assert.is(npc1.resources.iron, 0);
+  assert.is(npc1.resources.gold, 0);
+  assert.is(npc1.resources.water, 0);
+
+  assert.is(npc2.resources.grain, 10);
+  assert.is(npc2.resources.water, 30);
+  assert.is(npc2.resources.gold, 0);
 });
 
 test.run();
