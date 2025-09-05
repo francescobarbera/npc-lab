@@ -28,6 +28,8 @@ export const getActPrompt = (
   - None of the needed resources are available.
   - You are physically incapable of performing any productive action (this is rare).
 
+  Do NOT collect a resource if your OWNED amount already meets or exceeds the GOAL.
+
   Do not rest at the beginning of the day or out of personal preference. Rest only when there is no other reasonable action to take.
 
   Respond with the selected ACTION and a short motivation.
