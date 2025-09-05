@@ -24,7 +24,9 @@ export class Orchestrator {
   }
 
   get isFirstTurnOfDay(): boolean {
-    return (this.currentTurn - 1) % this.turnsPerDay === 0;
+    return (
+      this.currentTurn !== 0 && (this.currentTurn - 1) % this.turnsPerDay === 0
+    );
   }
 
   public async nextTurn() {
