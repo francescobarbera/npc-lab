@@ -15,8 +15,8 @@
   "scripts": {
     "build": "yarn tsc --project tsconfig.build.json",
     "typecheck": "tsc --noEmit",
-    "format": "biome format --write ./src ./evals",
-    "check": "biome lint ./src ./evals && biome format ./src ./evals",
+    "format": "biome format --write ./src",
+    "check": "biome lint ./src && biome format ./src",
     "start": "yarn node dist/src/index.js",
     "test": "NODE_ENV=test ITERATIONS_NUMBER=10 yarn uvu -r tsx",
     "coverage": "c8 --all --include=src yarn test"
