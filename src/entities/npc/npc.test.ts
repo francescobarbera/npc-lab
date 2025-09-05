@@ -11,7 +11,7 @@ const test = suite("NPC");
 
 test("act calls llm.generateResponse and detectActionType and returns the response", async () => {
   const llm = new LLMMock(null, null);
-  const npc = new NPC(llm, "test_npc", ["rest"], { firewood: 0 });
+  const npc = new NPC(llm, "test_npc", ["rest"], { firewood: 0 }, {});
   const npcMessage: NPCMessage = {
     content: "content",
     sender: "npc",

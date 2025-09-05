@@ -26,7 +26,7 @@ test("if all resources are set to 0 the chosen action is rest", async () => {
         "rest",
       ];
       const llm = new GroqImplementation();
-      const npc = new NPC(llm, "test_npc", actions, {});
+      const npc = new NPC(llm, "test_npc", actions, {}, {});
       const action = await npc.act(resourcesStatusMock);
 
       if (!action) {

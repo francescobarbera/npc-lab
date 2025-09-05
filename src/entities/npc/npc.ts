@@ -16,7 +16,8 @@ export class NPC extends ActionableEntity {
     private readonly llm: LLMInterface,
     public readonly name: string,
     private readonly actions: ActionType[],
-    initialResources: Partial<ResourcesStatus> = {},
+    initialResources: Partial<ResourcesStatus>,
+    private readonly goal: Partial<ResourcesStatus>,
   ) {
     super(`NPC ${name}`, initialResources);
     this.registerActionHandlers([
@@ -44,6 +45,7 @@ export class NPC extends ActionableEntity {
       content: getActPrompt(
         filterAvailableResources(this._resources),
         filterAvailableResources(availableResources),
+        this.goal,
       ),
       sender: "npc",
     });

@@ -1,7 +1,4 @@
-import type {
-  LLMInterface,
-  NPCMessage,
-} from "../../dependencies-interfaces/llm.js";
+import type { LLMInterface } from "../../dependencies-interfaces/llm.js";
 import type { Action } from "../../types/action.js";
 import { NPC } from "../../entities/npc/npc.js";
 
@@ -10,6 +7,6 @@ export class NPCMock extends NPC {
   public increaseFirewood = () => {};
 
   constructor() {
-    super({} as LLMInterface, "mock_npc", [], {});
+    super({} as LLMInterface, "mock_npc", [], {}, {});
   }
 }

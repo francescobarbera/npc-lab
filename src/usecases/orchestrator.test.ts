@@ -50,7 +50,7 @@ test("nextTurn increments turn and processes NPC actions", async () => {
 
 test("when a npc action increase a resource, it increases for the npc and it decreases the resource in the world", async () => {
   const llm = new LLMMock(null, null);
-  const npc1 = new NPC(llm, "npc_1_name", actionTypes, {});
+  const npc1 = new NPC(llm, "npc_1_name", actionTypes, {}, {});
   sinon.stub(npc1, "act").resolves({
     type: "collect_iron",
     reason: "reason",
@@ -72,7 +72,7 @@ test("when a npc action increase a resource, it increases for the npc and it dec
 
 test("it return the current day based on the current turn", () => {
   const llm = new LLMMock(null, null);
-  const npc1 = new NPC(llm, "npc_1_name", actionTypes, { iron: 20 });
+  const npc1 = new NPC(llm, "npc_1_name", actionTypes, { iron: 20 }, {});
   sinon.stub(npc1, "act").resolves({
     type: "rest",
     reason: "I am tired",

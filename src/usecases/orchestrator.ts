@@ -1,7 +1,6 @@
 import Logger from "../utils/logger.js";
 import type { NPC } from "../entities/npc/npc.js";
 import type { World } from "../entities/world/world.js";
-import type { Action } from "../types/action.js";
 
 export class Orchestrator {
   private logger: Logger;
