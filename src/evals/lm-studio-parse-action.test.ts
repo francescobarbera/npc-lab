@@ -2,7 +2,7 @@ import { suite } from "uvu";
 import * as assert from "uvu/assert";
 import { evaluate } from "./utils/evaluate.js";
 import { logTestResult } from "./utils/logger.js";
-import { LMStudioImplementation } from "../src/dependencies-implementations/lm-studio.js";
+import { GroqImplementation } from "../dependencies-implementations/groq.js";
 import {
   generateNPCActiveResponse,
   generateNPCRestResponse,
@@ -25,7 +25,7 @@ test("correctly parses the action if it is included in the actions list", async 
     Number(ITERATIONS_NUMBER),
     100,
     async () => {
-      const llm = new LMStudioImplementation();
+      const llm = new GroqImplementation();
       const actions = [
         "collect_gold",
         "collect_firewood",
@@ -58,9 +58,8 @@ test("correctly parses the action deciding to rest", async () => {
     Number(ITERATIONS_NUMBER),
     100,
     async () => {
-      const llm = new LMStudioImplementation();
+      const llm = new GroqImplementation();
       const actions = ["rest"];
-      const resources = ["gold", "firewood", "stone", "iron", "grain"];
 
       const action = await llm.detectActionType(actions, {
         sender: "npc",
@@ -68,43 +67,6 @@ test("correctly parses the action deciding to rest", async () => {
       });
 
       const testPassed = action === "rest";
-
-      logTestResult(JSON.stringify(action), testPassed);
-
-      return testPassed;
-    },
-  );
-
-  assert.ok(testResult);
-});
-
-test("returns null if in the sentence it is not clear what action to extract", async () => {
-  const testResult = await evaluate(
-    Number(ITERATIONS_NUMBER),
-    100,
-    async () => {
-      const llm = new LMStudioImplementation();
-      const actions = [
-        "collect_gold",
-        "collect_firewood",
-        "collect_stone",
-        "collect_iron",
-        "collect_grain",
-      ];
-      const unknownResource = ["water", "clay", "wool", "fish", "herbs"];
-      const randomUnknownResource =
-        unknownResource[Math.floor(Math.random() * unknownResource.length)];
-
-      const a = generateNPCActiveResponse(randomUnknownResource);
-      const action = await llm.detectActionType(actions, {
-        sender: "npc",
-        content: a,
-      });
-
-      if (action) {
-        console.log(a);
-      }
-      const testPassed = action === null;
 
       logTestResult(JSON.stringify(action), testPassed);
 

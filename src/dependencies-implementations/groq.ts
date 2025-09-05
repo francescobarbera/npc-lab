@@ -9,7 +9,6 @@ import type { ActionType } from "../types/action.js";
 import { Groq } from "groq-sdk";
 
 const GROQ_API_KEY = process.env.GROQ_API_KEY;
-console.log("AAA", GROQ_API_KEY);
 
 export class GroqImplementation implements LLMInterface {
   private groq;

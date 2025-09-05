@@ -1420,7 +1420,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mri@npm:^1.1.0, mri@npm:^1.1.5":
+"mri@npm:^1.1.0":
   version: 1.2.0
   resolution: "mri@npm:1.2.0"
   checksum: 10c0/a3d32379c2554cf7351db6237ddc18dc9e54e4214953f3da105b97dc3babe0deb3ffe99cf409b38ea47cc29f9430561ba6b53b24ab8f9ce97a4b50409e4a50e7
@@ -1508,7 +1508,6 @@ __metadata:
     tsx: "npm:^4.20.5"
     typescript: "npm:^5.9.2"
     uvu: "npm:^0.5.6"
-    watchlist: "npm:^0.3.1"
   languageName: unknown
   linkType: soft
 
@@ -1939,17 +1938,6 @@ __metadata:
     "@types/istanbul-lib-coverage": "npm:^2.0.1"
     convert-source-map: "npm:^2.0.0"
   checksum: 10c0/968bcf1c7c88c04df1ffb463c179558a2ec17aa49e49376120504958239d9e9dad5281aa05f2a78542b8557f2be0b0b4c325710262f3b838b40d703d5ed30c23
-  languageName: node
-  linkType: hard
-
-"watchlist@npm:^0.3.1":
-  version: 0.3.1
-  resolution: "watchlist@npm:0.3.1"
-  dependencies:
-    mri: "npm:^1.1.5"
-  bin:
-    watchlist: bin.js
-  checksum: 10c0/7c62d9f96567091a9f44a39df95d4bfdda7ef10d17c1b5d55ba37d99e6dfc22ac838d5862bb080093ccf15737f0d6c95004f35be28d2fcfa1fb13eeeca83d5a8
   languageName: node
   linkType: hard
 

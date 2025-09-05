@@ -1,10 +1,10 @@
 import { suite } from "uvu";
 import * as assert from "uvu/assert";
-import { NPC } from "../src/entities/npc/npc.js";
+import { NPC } from "../entities/npc/npc.js";
 import { evaluate } from "./utils/evaluate.js";
 import { logTestResult } from "./utils/logger.js";
-import { resourcesStatusMock } from "../src/utils/mocks/resources-status-mock.js";
-import { LMStudioImplementation } from "../src/dependencies-implementations/lm-studio.js";
+import { resourcesStatusMock } from "../utils/mocks/resources-status-mock.js";
+import { GroqImplementation } from "../dependencies-implementations/groq.js";
 
 const ITERATIONS_NUMBER = process.env.ITERATIONS_NUMBER;
 
@@ -25,7 +25,7 @@ test("if all resources are set to 0 the chosen action is rest", async () => {
         "collect_grain",
         "rest",
       ];
-      const llm = new LMStudioImplementation();
+      const llm = new GroqImplementation();
       const npc = new NPC(llm, "test_npc", actions, {});
       const action = await npc.act(resourcesStatusMock);
 
@@ -35,7 +35,10 @@ test("if all resources are set to 0 the chosen action is rest", async () => {
 
       const testPassed = action.type === "rest";
 
-      logTestResult(JSON.stringify(action), testPassed);
+      logTestResult(
+        `Action: ${action.type}, Reason: ${action.reason}`,
+        testPassed,
+      );
 
       return testPassed;
     },
