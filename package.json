@@ -13,11 +13,11 @@
     "uvu": "^0.5.6"
   },
   "scripts": {
-    "build": "yarn tsc --project tsconfig.build.json",
+    "build": "rm -rf dist && yarn tsc --project tsconfig.build.json",
     "typecheck": "tsc --noEmit",
     "format": "biome format --write ./src",
     "check": "biome lint ./src && biome format ./src",
-    "start": "yarn node dist/src/index.js",
+    "start": "yarn node dist/index.js",
     "test": "NODE_ENV=test ITERATIONS_NUMBER=10 yarn uvu -r tsx",
     "coverage": "c8 --all --include=src yarn test"
   },

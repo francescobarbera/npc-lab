@@ -17,14 +17,25 @@ if (Number.isNaN(iterations)) {
 const llm = new GroqImplementation();
 
 const npcs: NPC[] = [
-  new NPC(llm, "Carl", actionTypes, {}, {}),
-  new NPC(llm, "Bob", actionTypes, {}, {}),
+  new NPC(llm, "Carl", actionTypes, {}, { firewood: 10, water: 20, fish: 40 }),
+  new NPC(llm, "Bob", actionTypes, {}, { stone: 30, water: 30, grain: 60 }),
 ];
 
-const world = new World("world_1", { firewood: 50 });
+const world = new World("world_1", {
+  firewood: 50,
+  water: 200,
+  fish: 50,
+  stone: 10,
+  grain: 50,
+});
 
 const orchestrator = new Orchestrator(world, npcs);
 
 for (let i = 0; iterations === 0 || i < iterations; i++) {
   await orchestrator.nextTurn();
 }
+
+for (const npc of npcs) {
+  logger.info(`${npc.name} ${JSON.stringify(npc.resources, null, 2)}`);
+}
+logger.info(JSON.stringify(world.resources, null, 2));

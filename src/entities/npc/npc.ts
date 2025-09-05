@@ -5,13 +5,11 @@ import type {
 import type { Action, ActionType } from "../../types/action.js";
 import { ActionableEntity } from "../actionable-entity.js";
 import type { ResourcesStatus } from "../../types/resources.js";
-import { getActPrompt, getSystemPrompt } from "./prompts.js";
+import { getActPrompt } from "./prompts.js";
 import { ActionHandler } from "./actionHandler.js";
 import { filterAvailableResources } from "../../utils/filterAvailableResources.js";
 
 export class NPC extends ActionableEntity {
-  private messageHistory: Message[] = [];
-
   constructor(
     private readonly llm: LLMInterface,
     public readonly name: string,
@@ -32,24 +30,27 @@ export class NPC extends ActionableEntity {
       new ActionHandler("collect_fish", "fish"),
       new ActionHandler("collect_herbs", "herbs"),
     ]);
-    this.messageHistory.push({
-      content: getSystemPrompt(this.name, [
-        ...Object.keys(filterAvailableResources(this._resources)),
-        "rest",
-      ]),
-    });
   }
 
   async act(availableResources: ResourcesStatus): Promise<Action | null> {
-    this.messageHistory.push({
-      content: getActPrompt(
-        filterAvailableResources(this._resources),
-        filterAvailableResources(availableResources),
-        this.goal,
-      ),
-      sender: "npc",
-    });
-    const response = await this.llm.generateResponse(this.messageHistory);
+    const messages: Message[] = [
+      {
+        content: getActPrompt(
+          this.name,
+          [
+            ...Object.keys(filterAvailableResources(availableResources)).map(
+              (a) => `collect_${a}`,
+            ),
+            "rest",
+          ],
+          filterAvailableResources(this._resources),
+          filterAvailableResources(availableResources),
+          this.goal,
+        ),
+        sender: "npc",
+      },
+    ];
+    const response = await this.llm.generateResponse(messages);
     if (response === null) {
       return null;
     }
